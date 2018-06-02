@@ -29,19 +29,36 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BoardView.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="BoardView.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/View/BoardView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="100" column="54" selection-start-line="100" selection-start-column="54" selection-end-line="100" selection-end-column="54" />
+            <state relative-caret-position="414">
+              <caret line="85" column="37" selection-start-line="85" selection-start-column="37" selection-end-line="85" selection-end-column="37" />
               <folding>
+                <element signature="method#BoardView#0;class#BoardView#0" />
                 <element signature="method#generateHeader#0;class#BoardView#0" />
+                <element signature="method#generateBoard#0;class#BoardView#0" />
+                <element signature="method#getBoardDimension#0;class#BoardView#0" />
+                <element signature="method#generateButtons#0;class#BoardView#0" />
+                <element signature="class#Button#0;class#BoardView#0" />
                 <element signature="class#ButtonListener#0;class#BoardView#0" />
                 <element signature="e#5065#5066#0" expanded="true" />
                 <element signature="e#5094#5095#0" expanded="true" />
                 <element signature="class#Hover#0;class#BoardView#0" />
                 <element signature="method#generateFooter#0;class#BoardView#0" />
+                <element signature="class#UndoListener#0;class#BoardView#0" />
+                <element signature="class#DotListener#0;class#BoardView#0" />
+                <element signature="method#update#0;class#BoardView#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="72">
+              <caret line="4" column="5" lean-forward="true" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -339,6 +356,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1920" height="1053" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -348,13 +366,13 @@
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.17106652" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.17106652" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Material Palette" order="3" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32939914" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.128125" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.128125" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
@@ -374,7 +392,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="2" />
+      <option name="time" value="4" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -601,16 +619,31 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/View/BoardView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="100" column="54" selection-start-line="100" selection-start-column="54" selection-end-line="100" selection-end-column="54" />
+        <state relative-caret-position="414">
+          <caret line="85" column="37" selection-start-line="85" selection-start-column="37" selection-end-line="85" selection-end-column="37" />
           <folding>
+            <element signature="method#BoardView#0;class#BoardView#0" />
             <element signature="method#generateHeader#0;class#BoardView#0" />
+            <element signature="method#generateBoard#0;class#BoardView#0" />
+            <element signature="method#getBoardDimension#0;class#BoardView#0" />
+            <element signature="method#generateButtons#0;class#BoardView#0" />
+            <element signature="class#Button#0;class#BoardView#0" />
             <element signature="class#ButtonListener#0;class#BoardView#0" />
             <element signature="e#5065#5066#0" expanded="true" />
             <element signature="e#5094#5095#0" expanded="true" />
             <element signature="class#Hover#0;class#BoardView#0" />
             <element signature="method#generateFooter#0;class#BoardView#0" />
+            <element signature="class#UndoListener#0;class#BoardView#0" />
+            <element signature="class#DotListener#0;class#BoardView#0" />
+            <element signature="method#update#0;class#BoardView#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="5" lean-forward="true" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
         </state>
       </provider>
     </entry>
