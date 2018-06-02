@@ -6,10 +6,7 @@ import Service.Parameters;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -56,7 +53,7 @@ public class BoardView {
         header.setLayout(new GridBagLayout());
 
         JLabel title = new JLabel("TIMBIRICHE");
-        title.setFont(Font.getFont("Tahoma"));
+        title.setFont(new Font("Tahoma",Font.BOLD,25));
         title.setForeground(Color.BLACK);
         title.setBackground(Color.CYAN);
 
@@ -66,7 +63,7 @@ public class BoardView {
     private void generateBoard(){
         boardPanel = new JPanel();
 
-        Dimension boardPanelDim = new Dimension(getBoardDimension()+100,getBoardDimension()+100);
+        Dimension boardPanelDim = new Dimension(getBoardDimension()+100,getBoardDimension());
         boardPanel.setMaximumSize(boardPanelDim);
         boardPanel.setMinimumSize(boardPanelDim);
         boardPanel.setPreferredSize(boardPanelDim);
@@ -101,7 +98,8 @@ public class BoardView {
             for (int col = 0; col < side; col ++) {
                 if (row%2==0 && col%2==0) {
                     Label dot = new Label("O");
-                    dot.setFont(new Font("Serif",Font.BOLD,35));
+                    int fontSize = boardDim / side;
+                    dot.setFont(new Font("Serif",Font.BOLD,fontSize));
                     dot.setBackground(Color.WHITE);
                     dot.setForeground(Color.CYAN);
                     board.add(dot);
@@ -121,10 +119,12 @@ public class BoardView {
                         buttonContainer.setLayout(new GridLayout(1,3));
                     }
                     Button b = new Button(row,col,isVertical);
-                    ButtonListener bl = new ButtonListener();
+                    Hover h = new Hover();
+                    b.addMouseListener(h);
+                    ButtonListener bl = new ButtonListener(h);
                     b.addActionListener(bl);
                     b.setBorderPainted(false);
-                    b.setBackground(new Color(240,240,240));
+                    b.setBackground(Color.WHITE);
 
                     buttonContainer.add(new Label());
                     buttonContainer.add(b);
@@ -156,13 +156,34 @@ public class BoardView {
     }
 
     private class ButtonListener implements ActionListener{
+        Hover mouseEvent;
+
+        private ButtonListener(Hover mouseEvent) {
+            this.mouseEvent = mouseEvent;
+        }
+
+        @Override
         public void actionPerformed(ActionEvent e) {
             Button button = (Button) e.getSource();
             button.setBackground(new Color(153,110,67));
+            button.removeMouseListener(mouseEvent);
             System.out.println("Row: "+button.getRow());
             System.out.println("Col: "+button.getCol());
         }
+    }
 
+    private class Hover extends MouseAdapter {
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            Button button = (Button) e.getComponent();
+            button.setBackground(new Color(240,240,240));
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            Button button = (Button) e.getComponent();
+            button.setBackground(Color.WHITE);
+        }
     }
 
     private void generateFooter() {
