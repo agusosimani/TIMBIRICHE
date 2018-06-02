@@ -19,6 +19,7 @@ public class BoardView {
     private JTextArea player1score;
     private JTextArea player2score;
     private JTextArea playerTurn;
+    private Button[][] buttons; //instances of buttons should be saved to remove color in case the undo button is pressed
 
     public BoardView(){
         view = new JFrame();
@@ -94,6 +95,8 @@ public class BoardView {
         board.setMaximumSize(dim);
         board.setPreferredSize(dim);
 
+        buttons = new Button[Parameters.size-1][Parameters.size-1];
+
         for (int row = 0; row < side; row ++) {
             for (int col = 0; col < side; col ++) {
                 if (row%2==0 && col%2==0) {
@@ -118,7 +121,7 @@ public class BoardView {
                         isVertical = true;
                         buttonContainer.setLayout(new GridLayout(1,3));
                     }
-                    Button b = new Button(row,col,isVertical);
+                    Button b = new Button(row,col/2,isVertical);
                     Hover h = new Hover();
                     b.addMouseListener(h);
                     ButtonListener bl = new ButtonListener(h);
@@ -130,6 +133,7 @@ public class BoardView {
                     buttonContainer.add(b);
                     buttonContainer.add(new Label());
 
+                    buttons[row][col/2] = b;
                     board.add(buttonContainer);
                 }
             }
@@ -167,6 +171,7 @@ public class BoardView {
             Button button = (Button) e.getSource();
             button.setBackground(new Color(153,110,67));
             button.removeMouseListener(mouseEvent);
+            button.removeActionListener(this);
             System.out.println("Row: "+button.getRow());
             System.out.println("Col: "+button.getCol());
         }

@@ -12,7 +12,7 @@ public class Controller {
     private static Model model;
 
     public static void main(String[] args) {
-        ArrayList<String> argsList = new ArrayList<String>(Arrays.asList(args));
+        ArrayList<String> argsList = new ArrayList<>(Arrays.asList(args));
 
         try {
             if (argsList.size() != 10)
@@ -58,12 +58,15 @@ public class Controller {
 
                 int paramValue = Integer.parseInt(argsList.get(param+1));
 
-                if (Parameters.mode.equals("time")) {
-                    Parameters.maxTime = paramValue;
-                } else if (Parameters.mode.equals("depth")) {
-                    Parameters.depth = paramValue;
-                } else {
-                    throw new IllegalArgumentException();
+                switch (Parameters.mode) {
+                    case "time":
+                        Parameters.maxTime = paramValue;
+                        break;
+                    case "depth":
+                        Parameters.depth = paramValue;
+                        break;
+                    default:
+                        throw new IllegalArgumentException();
                 }
 
                 int prune = argsList.indexOf("-prune");
@@ -74,12 +77,15 @@ public class Controller {
 
                 String pruneValue = argsList.get(prune+1);
 
-                if (pruneValue.equals("on")) {
-                    Parameters.prune = true;
-                } else if (pruneValue.equals("off")) {
-                    Parameters.prune = false;
-                } else {
-                    throw new IllegalArgumentException();
+                switch (pruneValue) {
+                    case "on":
+                        Parameters.prune = true;
+                        break;
+                    case "off":
+                        Parameters.prune = false;
+                        break;
+                    default:
+                        throw new IllegalArgumentException();
                 }
             }
         } catch (IllegalArgumentException e) {
