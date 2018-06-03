@@ -1,7 +1,36 @@
 package Model;
 
-public class Model {
-    public void startGame() {
+import Controller.Controller;
+import Service.Parameters;
 
+public class Model {
+    private Board board;
+
+    public Model(Board board) {
+        this.board = board;
+    }
+
+    public Board getBoard() { return board; }
+
+    public void gameLoop() {
+        AI ai = new AI();
+
+        int row = 0, col = 0;
+        while( !board.gameOver()) {
+            try {
+                Thread.sleep(10);
+            }
+            catch (Exception e){
+                continue;
+            }
+
+            if (board.getPlayerTurn() == Parameters.ai) {
+                Controller.placeLine(row++,col++,board.getPlayerTurn());
+            }
+        }
+    }
+
+    public void addLine(int row, int col, int player) {
+        board.addLine(row,col,player);
     }
 }

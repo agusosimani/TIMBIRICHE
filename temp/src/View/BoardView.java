@@ -1,15 +1,15 @@
 package View;
 
-import Service.Constants;
-import Service.Parameters;
+import Controller.Controller;
+import Model.Board;
+import Model.Move;
+
+import static Service.Constants.*;
+import static Service.Parameters.*;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class BoardView {
     private JFrame view;
@@ -18,8 +18,12 @@ public class BoardView {
     private JPanel footer;
     private JTextArea player1score;
     private JTextArea player2score;
-    private JTextArea playerTurn;
+    private JTextArea playerTurnLabel;
+    private int playerTurn;
     private Button[][] buttons; //instances of buttons should be saved to remove color in case the undo button is pressed
+    private boolean clickEnabled;
+
+    Color green = new Color(66,244,113);
 
     public BoardView(){
         view = new JFrame();
@@ -50,13 +54,13 @@ public class BoardView {
         header.setMinimumSize(dim);
         header.setMaximumSize(dim);
         header.setPreferredSize(dim);
-        header.setBackground(Color.CYAN);
+        header.setBackground(green);
         header.setLayout(new GridBagLayout());
 
         JLabel title = new JLabel("TIMBIRICHE");
         title.setFont(new Font("Tahoma",Font.BOLD,25));
         title.setForeground(Color.BLACK);
-        title.setBackground(Color.CYAN);
+        title.setBackground(green);
 
         header.add(title);
     }
@@ -77,11 +81,11 @@ public class BoardView {
     }
 
     private int getBoardSide(){
-        return Parameters.size*2-1;
+        return size*2-1;
     }
 
     private int getBoardDimension() {
-        return Parameters.size * Constants.SMALL + (Parameters.size - 1) * Constants.LARGE;
+        return size * SMALL + (size - 1) * LARGE;
     }
 
     private JPanel generateButtons() {
@@ -95,7 +99,8 @@ public class BoardView {
         board.setMaximumSize(dim);
         board.setPreferredSize(dim);
 
-        buttons = new Button[Parameters.size-1][Parameters.size-1];
+        buttons = new Button[side][size];
+        clickEnabled = true;
 
         for (int row = 0; row < side; row ++) {
             for (int col = 0; col < side; col ++) {
@@ -104,7 +109,7 @@ public class BoardView {
                     int fontSize = boardDim / side;
                     dot.setFont(new Font("Serif",Font.BOLD,fontSize));
                     dot.setBackground(Color.WHITE);
-                    dot.setForeground(Color.CYAN);
+                    dot.setForeground(green);
                     board.add(dot);
                 } else if (row%2!=0 && col%2!=0) {
                     JTextArea text = new JTextArea("");
@@ -168,12 +173,22 @@ public class BoardView {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            Button button = (Button) e.getSource();
-            button.setBackground(new Color(153,110,67));
-            button.removeMouseListener(mouseEvent);
-            button.removeActionListener(this);
-            System.out.println("Row: "+button.getRow());
-            System.out.println("Col: "+button.getCol());
+            if (clickEnabled) {
+                clickEnabled = false;
+                Button button = (Button) e.getSource();
+                if (playerTurn == 1) {
+                    button.setBackground(new Color(153,110,67));
+                } else {
+                    button.setBackground(new Color(100,157,214));
+                }
+                button.removeMouseListener(mouseEvent);
+                button.removeActionListener(this);
+                if (playerTurn != ai) {
+                    Controller.placeLine(button.getRow(),button.getCol(), playerTurn);
+                }
+                clickEnabled = true;
+            }
+
         }
     }
 
@@ -198,7 +213,7 @@ public class BoardView {
         footer.setMinimumSize(dim);
         footer.setMaximumSize(dim);
         footer.setPreferredSize(dim);
-        footer.setBackground(Color.CYAN);
+        footer.setBackground(green);
         footer.setLayout(new GridBagLayout());
 
         JButton undo = new JButton("Undo move");
@@ -210,19 +225,19 @@ public class BoardView {
 
         player1score = new JTextArea("Boxes player 1: 0");
         player1score.setEditable(false);
-        player1score.setBackground(Color.CYAN);
+        player1score.setBackground(green);
         player1score.setMargin(new Insets(0,10,0,10));
         player2score = new JTextArea("Boxes player 2: 0");
         player2score.setEditable(false);
-        player2score.setBackground(Color.CYAN);
+        player2score.setBackground(green);
         player2score.setMargin(new Insets(0,10,0,10));
-        playerTurn = new JTextArea("Turn: Player 1");
-        playerTurn.setEditable(false);
-        playerTurn.setBackground(Color.CYAN);
-        playerTurn.setMargin(new Insets(0,10,0,10));
+        playerTurnLabel = new JTextArea("Turn: Player 1");
+        playerTurnLabel.setEditable(false);
+        playerTurnLabel.setBackground(green);
+        playerTurnLabel.setMargin(new Insets(0,10,0,10));
         footer.add(player1score);
         footer.add(player2score);
-        footer.add(playerTurn);
+        footer.add(playerTurnLabel);
 
         JButton dot = new JButton("Generate dot file");
         dot.setBackground(Color.BLACK);
@@ -256,10 +271,19 @@ public class BoardView {
     }
 
     public void initFrame() {
+        playerTurn = 1;
         view.setVisible(true);
     }
 
-    public void update() {
-
+    public void update(Board board) {
+        Move move = board.getLastMove();
+        if (move.getPlayer() == ai) {
+            Button button = buttons[move.getRow()][move.getCol()];
+            button.doClick();
+        }
+        playerTurn = board.getPlayerTurn();
+        playerTurnLabel.setText("Player "+playerTurn);
+        player1score.setText("Boxes player 1: "+board.getPlayer1score());
+        player2score.setText("Boxes player 2: "+board.getPlayer2score());
     }
 }

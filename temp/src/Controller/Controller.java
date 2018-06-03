@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.Model;
+import Model.*;
 import Service.*;
 import View.*;
 
@@ -10,6 +10,7 @@ import java.util.Arrays;
 
 public class Controller {
     private static Model model;
+    private static BoardView boardView;
 
     public static void main(String[] args) {
         ArrayList<String> argsList = new ArrayList<>(Arrays.asList(args));
@@ -94,20 +95,26 @@ public class Controller {
             return;
         }
 
-        BoardView board = new BoardView();
-        model = new Model();
+        Board board = new Board();
+        boardView = new BoardView();
+        model = new Model(board);
 
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
                 try {
-                    board.initFrame();
+                    boardView.initFrame();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
 
-        model.startGame();
+        model.gameLoop();
+    }
+
+    public static void placeLine(int row, int col, int player) {
+        model.addLine(row,col,player);
+        boardView.update(model.getBoard());
     }
 }
