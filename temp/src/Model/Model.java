@@ -16,7 +16,7 @@ public class Model {
         AI ai = new AI();
 
         int row = 0, col = 0;
-        while( !board.gameOver()) {
+        while(board.gameOver()) {
             try {
                 Thread.sleep(10);
             }
@@ -24,10 +24,12 @@ public class Model {
                 continue;
             }
 
-            if (board.getPlayerTurn() == Parameters.ai) {
+            if (board.getPlayerTurn() == Parameters.ai || Parameters.ai == 3) {
                 Controller.placeLine(row++,col++,board.getPlayerTurn());
             }
         }
+        int winner = board.getWinner();
+        Controller.setWinnerView(winner);
     }
 
     public void addLine(int row, int col, int player) {

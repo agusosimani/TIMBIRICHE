@@ -99,14 +99,11 @@ public class Controller {
         boardView = new BoardView();
         model = new Model(board);
 
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    boardView.initFrame();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        EventQueue.invokeLater(() -> {
+            try {
+                boardView.initFrame();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
 
@@ -116,5 +113,9 @@ public class Controller {
     public static void placeLine(int row, int col, int player) {
         model.addLine(row,col,player);
         boardView.update(model.getBoard());
+    }
+
+    public static void setWinnerView(int player) {
+        boardView.showWinner(player);
     }
 }

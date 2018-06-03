@@ -21,9 +21,13 @@ public class BoardView {
     private JTextArea playerTurnLabel;
     private int playerTurn;
     private Button[][] buttons; //instances of buttons should be saved to remove color in case the undo button is pressed
+    private JTextArea[][] boxesTaken;
     private boolean clickEnabled;
 
-    Color green = new Color(66,244,113);
+    private Color green = new Color(139,237,214);
+    private Color grey = new Color(77,89,86);
+    private Color blue = new Color(100,157,214);
+    private Color pink = new Color(206,151,219);
 
     public BoardView(){
         view = new JFrame();
@@ -38,7 +42,7 @@ public class BoardView {
         view.pack();
 
         view.setSize(getWindowWidth(),getWindowHeight());
-        view.setMinimumSize(new Dimension(650,getWindowHeight()));
+        view.setMinimumSize(new Dimension(700,getWindowHeight()));
         view.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -59,7 +63,7 @@ public class BoardView {
 
         JLabel title = new JLabel("TIMBIRICHE");
         title.setFont(new Font("Tahoma",Font.BOLD,25));
-        title.setForeground(Color.BLACK);
+        title.setForeground(grey);
         title.setBackground(green);
 
         header.add(title);
@@ -100,6 +104,7 @@ public class BoardView {
         board.setPreferredSize(dim);
 
         buttons = new Button[side][size];
+        boxesTaken = new JTextArea[size-1][size-1];
         clickEnabled = true;
 
         for (int row = 0; row < side; row ++) {
@@ -114,19 +119,17 @@ public class BoardView {
                 } else if (row%2!=0 && col%2!=0) {
                     JTextArea text = new JTextArea("");
                     text.setEditable(false);
+                    boxesTaken[row/2][col/2] = text;
                     board.add(text);
                 } else {
                     JPanel buttonContainer = new JPanel();
                     buttonContainer.setBackground(Color.WHITE);
-                    boolean isVertical;
                     if (row%2==0 && col%2!=0) {
-                        isVertical = false;
                         buttonContainer.setLayout(new GridLayout(3,1));
                     } else {
-                        isVertical = true;
                         buttonContainer.setLayout(new GridLayout(1,3));
                     }
-                    Button b = new Button(row,col/2,isVertical);
+                    Button b = new Button(row,col/2);
                     Hover h = new Hover();
                     b.addMouseListener(h);
                     ButtonListener bl = new ButtonListener(h);
@@ -148,20 +151,16 @@ public class BoardView {
 
     private class Button extends JButton {
         int row, col;
-        boolean isVertical;
 
-        public Button(int row, int col, boolean isVertical) {
+        Button(int row, int col) {
             super();
             this.row = row;
             this.col = col;
-            this.isVertical = isVertical;
         }
 
-        public int getRow() { return row; }
+        int getRow() { return row; }
 
-        public int getCol() { return col; }
-
-        public boolean isVertical() { return isVertical; }
+        int getCol() { return col; }
     }
 
     private class ButtonListener implements ActionListener{
@@ -177,13 +176,13 @@ public class BoardView {
                 clickEnabled = false;
                 Button button = (Button) e.getSource();
                 if (playerTurn == 1) {
-                    button.setBackground(new Color(153,110,67));
+                    button.setBackground(pink);
                 } else {
-                    button.setBackground(new Color(100,157,214));
+                    button.setBackground(blue);
                 }
                 button.removeMouseListener(mouseEvent);
                 button.removeActionListener(this);
-                if (playerTurn != ai) {
+                if (playerTurn != ai && ai!=3) {
                     Controller.placeLine(button.getRow(),button.getCol(), playerTurn);
                 }
                 clickEnabled = true;
@@ -217,7 +216,7 @@ public class BoardView {
         footer.setLayout(new GridBagLayout());
 
         JButton undo = new JButton("Undo move");
-        undo.setBackground(Color.BLACK);
+        undo.setBackground(grey);
         undo.setForeground(Color.WHITE);
         undo.setFont(Font.getFont("Tahoma"));
         undo.setMargin(new Insets(0,10,0,10));
@@ -227,20 +226,25 @@ public class BoardView {
         player1score.setEditable(false);
         player1score.setBackground(green);
         player1score.setMargin(new Insets(0,10,0,10));
+        player1score.setForeground(pink);
+        player1score.setFont(new Font("Tahoma",Font.PLAIN,16));
         player2score = new JTextArea("Boxes player 2: 0");
         player2score.setEditable(false);
         player2score.setBackground(green);
         player2score.setMargin(new Insets(0,10,0,10));
+        player2score.setForeground(blue);
+        player2score.setFont(new Font("Tahoma",Font.PLAIN,16));
         playerTurnLabel = new JTextArea("Turn: Player 1");
         playerTurnLabel.setEditable(false);
         playerTurnLabel.setBackground(green);
         playerTurnLabel.setMargin(new Insets(0,10,0,10));
+        playerTurnLabel.setFont(new Font("Tahoma",Font.PLAIN,16));
         footer.add(player1score);
         footer.add(player2score);
         footer.add(playerTurnLabel);
 
         JButton dot = new JButton("Generate dot file");
-        dot.setBackground(Color.BLACK);
+        dot.setBackground(grey);
         dot.setForeground(Color.WHITE);
         dot.setFont(Font.getFont("Tahoma"));
         dot.setMargin(new Insets(0,10,0,10));
@@ -278,12 +282,40 @@ public class BoardView {
     public void update(Board board) {
         Move move = board.getLastMove();
         if (move.getPlayer() == ai) {
-            Button button = buttons[move.getRow()][move.getCol()];
+            Button button = buttons[move.getButtonRow()][move.getButtonCol()];
             button.doClick();
         }
+        if (move.isTakenBox()) {
+            if (move.getPlayer() == 1) {
+                boxesTaken[move.getBoxRow()][move.getBoxCol()].setBackground(pink);
+            } else {
+                boxesTaken[move.getBoxRow()][move.getBoxCol()].setBackground(blue);
+            }
+        }
+        if (move.isTakenSecondBox()) {
+            if (move.getPlayer() == 1) {
+                boxesTaken[move.getBox2Row()][move.getBox2Col()].setBackground(pink);
+            } else {
+                boxesTaken[move.getBox2Row()][move.getBox2Col()].setBackground(blue);
+            }
+        }
         playerTurn = board.getPlayerTurn();
-        playerTurnLabel.setText("Player "+playerTurn);
+        playerTurnLabel.setText("Turn: Player "+playerTurn);
         player1score.setText("Boxes player 1: "+board.getPlayer1score());
         player2score.setText("Boxes player 2: "+board.getPlayer2score());
+    }
+
+    public void showWinner(int player) {
+        Dimension dim = new Dimension(300,80);
+        JDialog winner = new JDialog();
+        winner.setSize(dim);
+        winner.setMaximumSize(dim);
+        winner.setMinimumSize(dim);
+        winner.setPreferredSize(dim);
+        JTextArea text = new JTextArea("Player "+player+" won!\nCongratulations!");
+        text.setFont(new Font("Tahoma",Font.BOLD,20));
+        text.setEditable(false);
+        winner.add(text);
+        winner.setVisible(true);
     }
 }

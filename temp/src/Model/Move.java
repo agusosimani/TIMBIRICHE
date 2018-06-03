@@ -3,26 +3,62 @@ package Model;
 import java.util.Objects;
 
 public class Move {
-    private int row;
-    private int col;
+    private int buttonRow;
+    private int buttonCol;
+    private int boxRow;
+    private int boxCol;
+    private int box2Row;
+    private int box2Col;
     private int player;
+    private boolean takenBox;
+    private boolean takenSecondBox;
 
-    public Move(int row, int col, int player) {
-        this.row = row;
-        this.col = col;
+    Move(int buttonRow, int buttonCol, int boxRow, int boxCol, int box2Row, int box2Col, int player, boolean takenBox, boolean takenSecondBox) {
+        this.buttonRow = buttonRow;
+        this.buttonCol = buttonCol;
+        this.boxRow = boxRow;
+        this.boxCol = boxCol;
+        this.box2Row = box2Row;
+        this.box2Col = box2Col;
         this.player = player;
+        this.takenBox = takenBox;
+        this.takenSecondBox = takenSecondBox;
     }
 
-    public int getRow() {
-        return row;
+    public int getButtonRow() {
+        return buttonRow;
     }
 
-    public int getCol() {
-        return col;
+    public int getButtonCol() {
+        return buttonCol;
+    }
+
+    public int getBoxRow() {
+        return boxRow;
+    }
+
+    public int getBoxCol() {
+        return boxCol;
+    }
+
+    public int getBox2Row() {
+        return box2Row;
+    }
+
+    public int getBox2Col() {
+        return box2Col;
     }
 
     public int getPlayer() {
         return player;
+    }
+
+    public boolean isTakenBox() {
+        return takenBox;
+    }
+
+    public boolean isTakenSecondBox() {
+        return takenSecondBox;
     }
 
     @Override
@@ -30,13 +66,13 @@ public class Move {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Move move = (Move) o;
-        return row == move.row &&
-                col == move.col;
+        return buttonRow == move.buttonRow &&
+                buttonCol == move.buttonCol;
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(row, col);
+        return Objects.hash(buttonRow, buttonCol);
     }
 }
