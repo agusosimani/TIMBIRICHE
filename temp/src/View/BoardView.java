@@ -306,13 +306,20 @@ public class BoardView {
     }
 
     public void showWinner(int player) {
-        Dimension dim = new Dimension(300,80);
+        Dimension dim = new Dimension(700,80);
         JDialog winner = new JDialog();
         winner.setSize(dim);
         winner.setMaximumSize(dim);
         winner.setMinimumSize(dim);
         winner.setPreferredSize(dim);
-        JTextArea text = new JTextArea("Player "+player+" won!\nCongratulations!");
+        winner.setLayout(new GridBagLayout());
+
+        JTextArea text = new JTextArea();
+        if (player == 0) {
+            text.setText("Both players won! Congratulations!");
+        } else {
+            text.setText("Player "+player+" won!\nCongratulations!");
+        }
         text.setFont(new Font("Tahoma",Font.BOLD,20));
         text.setEditable(false);
         winner.add(text);

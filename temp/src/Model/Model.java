@@ -2,6 +2,7 @@ package Model;
 
 import Controller.Controller;
 import Service.Parameters;
+import static Service.Constants.*;
 
 public class Model {
     private Board board;
@@ -13,10 +14,16 @@ public class Model {
     public Board getBoard() { return board; }
 
     public void gameLoop() {
-        AI ai = new AI();
+
+        AI ai;
+        if (Parameters.ai != PVSP) {
+            if (Parameters.ai != AIVSAI) {
+                ai = new AI(Parameters.ai); //Let him know if he goes first or second
+            }
+        }
 
         int row = 0, col = 0;
-        while(board.gameOver()) {
+        while(!board.gameOver()) {
             try {
                 Thread.sleep(10);
             }

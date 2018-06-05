@@ -74,10 +74,8 @@ public class Board {
             }
         }
 
-        if (gameOver()) {
-            if (!continues) {
-                nextPlayer();
-            }
+        if (!continues) {
+            nextPlayer();
         }
     }
 
@@ -105,14 +103,16 @@ public class Board {
     }
 
     boolean gameOver() {
-        return !((scores[0] + scores[1]) == (Math.pow(Parameters.size - 1, 2)));
+        return ((scores[0] + scores[1]) == (Math.pow(Parameters.size - 1, 2)));
     }
 
+    // Returns number of player that won. If they tied, returns 0
     int getWinner() {
         if (scores[0] > scores[1]) {
             return 1;
-        } else {
+        } else if (scores[0] < scores[1]){
             return 2;
         }
+        return 0;
     }
 }

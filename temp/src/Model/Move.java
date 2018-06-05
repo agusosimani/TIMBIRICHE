@@ -25,6 +25,12 @@ public class Move {
         this.takenSecondBox = takenSecondBox;
     }
 
+    Move(int buttonRow, int buttonCol, int player) {
+        this.buttonRow = buttonRow;
+        this.buttonCol = buttonCol;
+        this.player = player;
+    }
+
     public int getButtonRow() {
         return buttonRow;
     }
