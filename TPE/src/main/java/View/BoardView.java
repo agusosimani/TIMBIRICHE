@@ -28,8 +28,7 @@ public class BoardView {
     private JTextArea[][] boxes; //instances of boxes should be saved to remove color in case the undo button is pressed
     private boolean clickEnabled;
 
-    private Color green = new Color(139,237,214);
-    private Color grey = new Color(77,89,86);
+    private Color grey = new Color(76,87,102);
     private Color blue = new Color(100,157,214);
     private Color pink = new Color(206,151,219);
 
@@ -64,13 +63,13 @@ public class BoardView {
         header.setMinimumSize(dim);
         header.setMaximumSize(dim);
         header.setPreferredSize(dim);
-        header.setBackground(green);
+        header.setBackground(grey);
         header.setLayout(new GridBagLayout());
 
         JLabel title = new JLabel("TIMBIRICHE");
         title.setFont(new Font("Tahoma",Font.BOLD,25));
-        title.setForeground(grey);
-        title.setBackground(green);
+        title.setForeground(Color.WHITE);
+        title.setBackground(grey);
 
         header.add(title);
     }
@@ -138,7 +137,7 @@ public class BoardView {
                     int fontSize = boardDim / side;
                     dot.setFont(new Font("Serif",Font.BOLD,fontSize));
                     dot.setBackground(Color.WHITE);
-                    dot.setForeground(green);
+                    dot.setForeground(grey);
                     board.add(dot);
                 } else if (row%2!=0 && col%2!=0) {
                     JTextArea text = new JTextArea("");
@@ -235,7 +234,7 @@ public class BoardView {
         footer.setMinimumSize(dim);
         footer.setMaximumSize(dim);
         footer.setPreferredSize(dim);
-        footer.setBackground(green);
+        footer.setBackground(grey);
         footer.setLayout(new GridBagLayout());
 
         JButton undo = new JButton("Undo move");
@@ -247,20 +246,21 @@ public class BoardView {
 
         player1score = new JTextArea("Boxes player 1: 0");
         player1score.setEditable(false);
-        player1score.setBackground(green);
+        player1score.setBackground(grey);
         player1score.setMargin(new Insets(0,10,0,10));
         player1score.setForeground(pink);
         player1score.setFont(new Font("Tahoma",Font.PLAIN,16));
         player2score = new JTextArea("Boxes player 2: 0");
         player2score.setEditable(false);
-        player2score.setBackground(green);
+        player2score.setBackground(grey);
         player2score.setMargin(new Insets(0,10,0,10));
         player2score.setForeground(blue);
         player2score.setFont(new Font("Tahoma",Font.PLAIN,16));
         playerTurnLabel = new JTextArea("Turn: Player 1");
         playerTurnLabel.setEditable(false);
-        playerTurnLabel.setBackground(green);
+        playerTurnLabel.setBackground(grey);
         playerTurnLabel.setMargin(new Insets(0,10,0,10));
+        playerTurnLabel.setForeground(Color.WHITE);
         playerTurnLabel.setFont(new Font("Tahoma",Font.PLAIN,16));
         footer.add(player1score);
         footer.add(player2score);

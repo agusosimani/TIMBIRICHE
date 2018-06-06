@@ -27,7 +27,7 @@ public class GameController {
 
                 Parameters.size = Integer.parseInt(argsList.get(size+1));
 
-                if (Parameters.size <= 0) {
+                if (Parameters.size <= 0 || Parameters.size > 18) {
                     throw new IllegalArgumentException();
                 }
 
@@ -91,7 +91,16 @@ public class GameController {
             }
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid parameters, try: \n" +
-                    "\tjava -jar tpe.jar -size [n] -ai [m] -mode [time|depth] -param [k] -prune [on|off]\n");
+                    "\tjava -jar tpe.jar -size [n] -ai [m] -mode [time|depth] -param [k] -prune [on|off]\n\n" +
+                    "\t-size [n] determines board size. 'n' should be an integer between 1 and 18\n" +
+                    "\t-ai [m] determines AI rol, 'm' value can be:\n" +
+                    "\t\t0: player vs player\n" +
+                    "\t\t1: AI moves first\n" +
+                    "\t\t2: AI moves second\n" +
+                    "\t\t3: AI vs AI\n" +
+                    "\t-mode [time|depth] determines if minimax algorithm ends due to time or depth\n" +
+                    "\t-param [k] goes with previous parameter. If mode is 'time', 'k' determines seconds, if mode is 'depth', 'k' determines tree depth\n" +
+                    "\t-prune [on|off] enables or disables prune");
             return;
         }
 
