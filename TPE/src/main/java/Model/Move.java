@@ -3,24 +3,17 @@ package Model;
 public class Move {
     private int buttonRow;
     private int buttonCol;
-    private int boxRow;
-    private int boxCol;
-    private int box2Row;
-    private int box2Col;
+    //A move can modify the lines of two boxes
+    private Line line1;
+    private Line line2;
     private int player;
-    private boolean takenBox;
-    private boolean takenSecondBox;
 
-    Move(int buttonRow, int buttonCol, int boxRow, int boxCol, int box2Row, int box2Col, int player, boolean takenBox, boolean takenSecondBox) {
+    Move(int buttonRow, int buttonCol, Line line1, Line line2, int player) {
         this.buttonRow = buttonRow;
         this.buttonCol = buttonCol;
-        this.boxRow = boxRow;
-        this.boxCol = boxCol;
-        this.box2Row = box2Row;
-        this.box2Col = box2Col;
+        this.line1 = line1;
+        this.line2 = line2;
         this.player = player;
-        this.takenBox = takenBox;
-        this.takenSecondBox = takenSecondBox;
     }
 
     Move(int buttonRow, int buttonCol, int player) {
@@ -37,31 +30,15 @@ public class Move {
         return buttonCol;
     }
 
-    public int getBoxRow() {
-        return boxRow;
+    public Line getLine1() {
+        return line1;
     }
 
-    public int getBoxCol() {
-        return boxCol;
-    }
-
-    public int getBox2Row() {
-        return box2Row;
-    }
-
-    public int getBox2Col() {
-        return box2Col;
+    public Line getLine2() {
+        return line2;
     }
 
     public int getPlayer() {
         return player;
-    }
-
-    public boolean isTakenBox() {
-        return takenBox;
-    }
-
-    public boolean isTakenSecondBox() {
-        return takenSecondBox;
     }
 }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class GameController {
-    private static GameModel model;
+    private static GameModel gameModel;
     private static BoardView boardView;
 
     public static void main(String[] args) {
@@ -97,7 +97,7 @@ public class GameController {
 
         Board board = new Board();
         boardView = new BoardView();
-        model = new GameModel(board);
+        gameModel = new GameModel(board);
 
         EventQueue.invokeLater(() -> {
             try {
@@ -107,12 +107,12 @@ public class GameController {
             }
         });
 
-        model.gameLoop();
+        gameModel.gameLoop();
     }
 
     public static void placeLine(int row, int col, int player) {
-        model.addLine(row,col,player);
-        boardView.update(model.getBoard());
+        gameModel.addLine(row,col,player);
+        boardView.update(gameModel.getBoard());
     }
 
     public static void setWinnerView(int player) {
@@ -120,6 +120,13 @@ public class GameController {
     }
 
     public static void performMove() {
-        model.performMove(true);
+        gameModel.performMove(true);
+    }
+
+    public static void undoMove() {
+        Move move = gameModel.undoMove();
+        if (move != null) {
+            boardView.undoMove(gameModel.getBoard(),move);
+        }
     }
 }

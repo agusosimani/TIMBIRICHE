@@ -49,4 +49,8 @@ public class GameModel {
     public void performMove(boolean value) {
         this.performMove = value;
     }
+
+    public Move undoMove() {
+        return board.undoMove();
+    }
 }

@@ -2,6 +2,7 @@ package View;
 
 import Controller.GameController;
 import Model.Board;
+import Model.Line;
 import Model.Move;
 import Service.Constants;
 import Service.Parameters;
@@ -24,7 +25,7 @@ public class BoardView {
     private JTextArea playerTurnLabel;
     private int playerTurn;
     private Button[][] buttons; //instances of buttons should be saved to remove color in case the undo button is pressed
-    private JTextArea[][] boxesTaken;
+    private JTextArea[][] boxes; //instances of boxes should be saved to remove color in case the undo button is pressed
     private boolean clickEnabled;
 
     private Color green = new Color(139,237,214);
@@ -127,7 +128,7 @@ public class BoardView {
         board.setPreferredSize(dim);
 
         buttons = new Button[side][size];
-        boxesTaken = new JTextArea[size-1][size-1];
+        boxes = new JTextArea[size-1][size-1];
         clickEnabled = true;
 
         for (int row = 0; row < side; row ++) {
@@ -142,7 +143,7 @@ public class BoardView {
                 } else if (row%2!=0 && col%2!=0) {
                     JTextArea text = new JTextArea("");
                     text.setEditable(false);
-                    boxesTaken[row/2][col/2] = text;
+                    boxes[row/2][col/2] = text;
                     board.add(text);
                 } else {
                     JPanel buttonContainer = new JPanel();
@@ -284,7 +285,7 @@ public class BoardView {
 
     private class UndoListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-
+            GameController.undoMove();
         }
     }
 
@@ -314,30 +315,70 @@ public class BoardView {
             button.doClick();
             clickEnabled = false;
         }
-        if (move.isTakenBox()) {
+        Line line = move.getLine1();
+        if (line.tookBox()) {
             if (move.getPlayer() == 1) {
-                boxesTaken[move.getBoxRow()][move.getBoxCol()].setBackground(pink);
+                boxes[line.getBoxRow()][line.getBoxCol()].setBackground(pink);
             } else {
-                boxesTaken[move.getBoxRow()][move.getBoxCol()].setBackground(blue);
+                boxes[line.getBoxRow()][line.getBoxCol()].setBackground(blue);
             }
         }
-        if (move.isTakenSecondBox()) {
-            if (move.getPlayer() == 1) {
-                boxesTaken[move.getBox2Row()][move.getBox2Col()].setBackground(pink);
-            } else {
-                boxesTaken[move.getBox2Row()][move.getBox2Col()].setBackground(blue);
+        line = move.getLine2();
+        if (line != null) {
+            if (line.tookBox()) {
+                if (move.getPlayer() == 1) {
+                    boxes[line.getBoxRow()][line.getBoxCol()].setBackground(pink);
+                } else {
+                    boxes[line.getBoxRow()][line.getBoxCol()].setBackground(blue);
+                }
             }
         }
+
         playerTurn = board.getPlayerTurn();
         playerTurnLabel.setText("Turn: Player "+playerTurn);
         player1score.setText("Boxes player 1: "+board.getPlayer1score());
         player2score.setText("Boxes player 2: "+board.getPlayer2score());
 
-        if (playerTurn != Parameters.ai && Parameters.ai != AIVSAI) {
-            next.setEnabled(false);
-            clickEnabled = true;
+        setFlags();
+    }
+
+    public void undoMove(Board board, Move move) {
+        Line line = move.getLine1();
+        if (line.tookBox()) {
+            boxes[line.getBoxRow()][line.getBoxCol()].setBackground(Color.WHITE);
+        }
+        line = move.getLine2();
+        if (line != null) {
+            if (line.tookBox()) {
+                boxes[line.getBoxRow()][line.getBoxCol()].setBackground(Color.WHITE);
+            }
+        }
+        Button button = buttons[move.getButtonRow()][move.getButtonCol()];
+        button.setBackground(Color.WHITE);
+        Hover h = new Hover();
+        button.addMouseListener(h);
+        ButtonListener bl = new ButtonListener(h);
+        button.addActionListener(bl);
+
+        playerTurn = board.getPlayerTurn();
+        playerTurnLabel.setText("Turn: Player "+playerTurn);
+        player1score.setText("Boxes player 1: "+board.getPlayer1score());
+        player2score.setText("Boxes player 2: "+board.getPlayer2score());
+
+        setFlags();
+    }
+
+    private void setFlags() {
+        if (Parameters.ai != PVSP) {
+            if (playerTurn != Parameters.ai && Parameters.ai != AIVSAI) {
+                next.setEnabled(false);
+                clickEnabled = true;
+            } else {
+                next.setEnabled(true);
+                clickEnabled = false;
+            }
         } else {
-            next.setEnabled(true);
+            clickEnabled = true;
         }
     }
 

@@ -35,45 +35,61 @@ public class Board {
 
     public int getPlayer2score() { return scores[1]; }
 
-    void addLine(int row, int col, int player) {
+    void addLine(int row, int col, int player) { // row and col are the indexes of the button in the view matrix
+        Line line1, line2;
         boolean continues;
         // Check boxes containing the line
         if (isEven(row)) { //horizontal line
             switch (isBorder(row/2)) {
                 case ISSUPERIOR:
-                    continues = updateBoxes(row,col,player,TOP);
-                    movesDone.add(new Move(row,col,row,col,0,0,player,continues,false));
+                    line1 = new Line(row,col,TOP);
+                    updateBoxes(line1,player);
+                    movesDone.add(new Move(row,col,line1,null,player));
+                    continues = line1.tookBox();
                     break;
+
                 case ISINFERIOR:
-                    continues = updateBoxes(row/2-1,col,player,BOTTOM);
-                    movesDone.add(new Move(row,col,row/2-1,col,0,0,player,continues,false));
+                    line1 = new Line(row/2-1,col,BOTTOM);
+                    updateBoxes(line1,player);
+                    movesDone.add(new Move(row,col,line1,null,player));
+                    continues = line1.tookBox();
                     break;
+
                 default: // is not border
-                    continues = updateBoxes(row/2-1,col,player,BOTTOM);
-                    boolean continuesaux = updateBoxes(row/2,col,player,TOP);
-                    movesDone.add(new Move(row,col,row/2-1,col,row/2,col,player,continues,continuesaux));
-                    continues = continues || continuesaux;
+                    line1 = new Line(row/2-1,col,BOTTOM);
+                    updateBoxes(line1,player);
+                    line2 = new Line(row/2,col,TOP);
+                    updateBoxes(line2,player);
+                    movesDone.add(new Move(row,col,line1,line2,player));
+                    continues = line1.tookBox() || line2.tookBox();
                     break;
             }
         } else { //vertical line
             switch (isBorder(col)) {
                 case ISLEFT:
-                    continues = updateBoxes(row/2,col,player,LEFT);
-                    movesDone.add(new Move(row,col,row/2,col,0,0,player,continues,false));
+                    line1 = new Line(row/2,col,LEFT);
+                    updateBoxes(line1, player);
+                    movesDone.add(new Move(row, col,line1,null, player));
+                    continues = line1.tookBox();
                     break;
+
                 case ISRIGHT:
-                    continues = updateBoxes(row/2,col-1,player,RIGHT);
-                    movesDone.add(new Move(row,col,row/2,col-1,0,0,player,continues,false));
+                    line1 = new Line(row/2,col-1,RIGHT);
+                    updateBoxes(line1,player);
+                    movesDone.add(new Move(row, col,line1,null, player));
+                    continues = line1.tookBox();
                     break;
+
                 default: // is not border
-                    continues = updateBoxes(row/2,col,player,LEFT);
-                    boolean continuesaux = updateBoxes(row/2,col-1,player,RIGHT);
-                    movesDone.add(new Move(row,col,row/2,col,row/2,col-1,player,continues,continuesaux));
-                    continues = continues || continuesaux;
+                    line1 = new Line(row/2,col,LEFT);
+                    updateBoxes(line1,player);
+                    line2 = new Line(row/2,col-1,RIGHT);
+                    updateBoxes(line2,player);
+                    movesDone.add(new Move(row, col,line1,line2, player));
+                    continues = line1.tookBox() || line2.tookBox();
                     break;
             }
         }
-
         if (!continues) {
             nextPlayer();
         }
@@ -93,13 +109,34 @@ public class Board {
         }
     }
 
-    private boolean updateBoxes(int row, int col, int player, int line) {
-        boxes[row][col] += Math.pow(2,line);
-        if (boxes[row][col] == FULL) {
-            scores[player-1] += 1;
-            return true;
+    private void updateBoxes(Line line, int player) {
+        boxes[line.getBoxRow()][line.getBoxCol()] += Math.pow(2,line.getType());
+        if (boxes[line.getBoxRow()][line.getBoxCol()] == FULL) {
+            scores[player-1] ++;
+            line.setTookBox();
         }
-        return false;
+    }
+
+    Move undoMove() {
+        if (movesDone.size() == 0) {
+            return null;
+        }
+
+        Move lastMove = movesDone.remove(movesDone.size()-1);
+        Line line = lastMove.getLine1();
+        if (boxes[line.getBoxRow()][line.getBoxCol()] == FULL) {
+            scores[lastMove.getPlayer()-1] --;
+        }
+        boxes[line.getBoxRow()][line.getBoxCol()] -= Math.pow(2,line.getType());
+        line = lastMove.getLine2();
+        if (line != null) {
+            if (boxes[line.getBoxRow()][line.getBoxCol()] == FULL) {
+                scores[lastMove.getPlayer()-1] --;
+            }
+            boxes[line.getBoxRow()][line.getBoxCol()] -= Math.pow(2,line.getType());
+        }
+        playerTurn = lastMove.getPlayer();
+        return lastMove;
     }
 
     boolean gameOver() {
