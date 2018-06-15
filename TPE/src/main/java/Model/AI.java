@@ -18,9 +18,9 @@ public class AI {
         int oponent = player == 1 ? 2 : 1;
         Move current;
         Move bestMove;
-        File tree1 = new File("tree.dot");
-        File tree2 = new File("tree2.dot");
-        dot = new DotBuilder(player,"tree2.dot");
+//        File tree1 = new File("tree.dot");
+//        File tree2 = new File("tree2.dot");
+//        dot = new DotBuilder(player,"tree2.dot");
 
         if(Parameters.maxTime != -1) {
             final long maxTime = Parameters.maxTime * 1000 + System.currentTimeMillis();

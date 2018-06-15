@@ -126,7 +126,7 @@ public class GameController {
         boardView.update(gameModel.getBoard());
     }
 
-    public static Index getIndex(Line line) {
+    public static ButtonIndex getIndex(Line line) {
         int row, col;
         switch (line.getType()) {
             case TOP:
@@ -147,7 +147,7 @@ public class GameController {
                 break;
         }
 
-        return new Index(row,col);
+        return new ButtonIndex(row,col);
     }
 
     public static void setWinnerView(int player) {

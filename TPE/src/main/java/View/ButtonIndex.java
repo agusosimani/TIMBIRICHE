@@ -1,10 +1,10 @@
-package Model;
+package View;
 
-public class Index {
+public class ButtonIndex {
     private int row;
     private int col;
 
-    public Index(int row, int col) {
+    public ButtonIndex(int row, int col) {
         this.row = row;
         this.col = col;
     }
