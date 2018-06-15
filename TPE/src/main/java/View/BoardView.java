@@ -2,6 +2,7 @@ package View;
 
 import Controller.GameController;
 import Model.Board;
+import Model.Index;
 import Model.Line;
 import Model.Move;
 import Service.Constants;
@@ -310,7 +311,8 @@ public class BoardView {
     public void update(Board board) {
         Move move = board.getLastMove();
         if (move.getPlayer() == ai) {
-            Button button = buttons[move.getButtonRow()][move.getButtonCol()];
+            Index index = GameController.getIndex(move.getLine1());
+            Button button = buttons[index.getRow()][index.getCol()];
             clickEnabled = true;
             button.doClick();
             clickEnabled = false;
@@ -344,6 +346,7 @@ public class BoardView {
 
     public void undoMove(Board board, Move move) {
         Line line = move.getLine1();
+        Index index = GameController.getIndex(line);
         if (line.tookBox()) {
             boxes[line.getBoxRow()][line.getBoxCol()].setBackground(Color.WHITE);
         }
@@ -353,7 +356,7 @@ public class BoardView {
                 boxes[line.getBoxRow()][line.getBoxCol()].setBackground(Color.WHITE);
             }
         }
-        Button button = buttons[move.getButtonRow()][move.getButtonCol()];
+        Button button = buttons[index.getRow()][index.getCol()];
         button.setBackground(Color.WHITE);
         Hover h = new Hover();
         button.addMouseListener(h);

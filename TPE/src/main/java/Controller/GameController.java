@@ -8,6 +8,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static Service.Constants.*;
+
 public class GameController {
     private static GameModel gameModel;
     private static BoardView boardView;
@@ -122,6 +124,30 @@ public class GameController {
     public static void placeLine(int row, int col, int player) {
         gameModel.addLine(row,col,player);
         boardView.update(gameModel.getBoard());
+    }
+
+    public static Index getIndex(Line line) {
+        int row, col;
+        switch (line.getType()) {
+            case TOP:
+                row = line.getBoxRow() * 2;
+                col = line.getBoxCol();
+                break;
+            case BOTTOM:
+                row = (line.getBoxRow() + 1) * 2;
+                col = line.getBoxCol();
+                break;
+            case LEFT:
+                row = line.getBoxRow() * 2 + 1;
+                col = line.getBoxCol();
+                break;
+            default: //case RIGHT
+                row = line.getBoxRow() * 2 + 1;
+                col = line.getBoxCol() + 1;
+                break;
+        }
+
+        return new Index(row,col);
     }
 
     public static void setWinnerView(int player) {

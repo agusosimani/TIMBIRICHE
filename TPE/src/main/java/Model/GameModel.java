@@ -34,8 +34,8 @@ public class GameModel {
             if (board.getPlayerTurn() == Parameters.ai || Parameters.ai == 3) {
                 if (performMove) {
                     GameController.placeLine(row++,col++,board.getPlayerTurn());
+                    performMove = false;
                 }
-                performMove = false;
             }
         }
         int winner = board.getWinner();

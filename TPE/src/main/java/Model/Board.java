@@ -44,14 +44,14 @@ public class Board {
                 case ISSUPERIOR:
                     line1 = new Line(row,col,TOP);
                     updateBoxes(line1,player);
-                    movesDone.add(new Move(row,col,line1,null,player));
+                    movesDone.add(new Move(line1,null,player));
                     continues = line1.tookBox();
                     break;
 
                 case ISINFERIOR:
                     line1 = new Line(row/2-1,col,BOTTOM);
                     updateBoxes(line1,player);
-                    movesDone.add(new Move(row,col,line1,null,player));
+                    movesDone.add(new Move(line1,null,player));
                     continues = line1.tookBox();
                     break;
 
@@ -60,7 +60,7 @@ public class Board {
                     updateBoxes(line1,player);
                     line2 = new Line(row/2,col,TOP);
                     updateBoxes(line2,player);
-                    movesDone.add(new Move(row,col,line1,line2,player));
+                    movesDone.add(new Move(line1,line2,player));
                     continues = line1.tookBox() || line2.tookBox();
                     break;
             }
@@ -69,14 +69,14 @@ public class Board {
                 case ISLEFT:
                     line1 = new Line(row/2,col,LEFT);
                     updateBoxes(line1, player);
-                    movesDone.add(new Move(row, col,line1,null, player));
+                    movesDone.add(new Move(line1,null, player));
                     continues = line1.tookBox();
                     break;
 
                 case ISRIGHT:
                     line1 = new Line(row/2,col-1,RIGHT);
                     updateBoxes(line1,player);
-                    movesDone.add(new Move(row, col,line1,null, player));
+                    movesDone.add(new Move(line1,null, player));
                     continues = line1.tookBox();
                     break;
 
@@ -85,7 +85,7 @@ public class Board {
                     updateBoxes(line1,player);
                     line2 = new Line(row/2,col-1,RIGHT);
                     updateBoxes(line2,player);
-                    movesDone.add(new Move(row, col,line1,line2, player));
+                    movesDone.add(new Move(line1,line2, player));
                     continues = line1.tookBox() || line2.tookBox();
                     break;
             }
@@ -121,7 +121,6 @@ public class Board {
         if (movesDone.size() == 0) {
             return null;
         }
-
         Move lastMove = movesDone.remove(movesDone.size()-1);
         Line line = lastMove.getLine1();
         if (boxes[line.getBoxRow()][line.getBoxCol()] == FULL) {

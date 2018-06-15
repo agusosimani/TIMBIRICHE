@@ -21,7 +21,7 @@ public class Line {
         return boxCol;
     }
 
-    int getType() {
+    public int getType() {
         return type;
     }
 

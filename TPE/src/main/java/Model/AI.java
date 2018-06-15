@@ -39,7 +39,7 @@ public class AI {
 
 
         }
-        return new Move(0,0,0);
+        return new Move(null,null,0);
     }
 
 }
