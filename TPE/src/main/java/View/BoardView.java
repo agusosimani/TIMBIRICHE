@@ -13,6 +13,7 @@ import static Service.Parameters.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 
 public class BoardView {
     private JFrame view;
@@ -309,23 +310,17 @@ public class BoardView {
 
     public void update(Board board) {
         Move move = board.getLastMove();
+        List<Line> lines = move.getLines();
+
         if (move.getPlayer() == ai) {
-            ButtonIndex index = GameController.getIndex(move.getLine1());
+            ButtonIndex index = GameController.getIndex(lines.get(0));
             Button button = buttons[index.getRow()][index.getCol()];
             clickEnabled = true;
             button.doClick();
             clickEnabled = false;
         }
-        Line line = move.getLine1();
-        if (line.tookBox()) {
-            if (move.getPlayer() == 1) {
-                boxes[line.getBoxRow()][line.getBoxCol()].setBackground(pink);
-            } else {
-                boxes[line.getBoxRow()][line.getBoxCol()].setBackground(blue);
-            }
-        }
-        line = move.getLine2();
-        if (line != null) {
+
+        for (Line line : lines) {
             if (line.tookBox()) {
                 if (move.getPlayer() == 1) {
                     boxes[line.getBoxRow()][line.getBoxCol()].setBackground(pink);
@@ -344,17 +339,14 @@ public class BoardView {
     }
 
     public void undoMove(Board board, Move move) {
-        Line line = move.getLine1();
-        ButtonIndex index = GameController.getIndex(line);
-        if (line.tookBox()) {
-            boxes[line.getBoxRow()][line.getBoxCol()].setBackground(Color.WHITE);
-        }
-        line = move.getLine2();
-        if (line != null) {
+        List<Line> lines = move.getLines();
+        ButtonIndex index = GameController.getIndex(lines.get(0));
+        for (Line line : lines) {
             if (line.tookBox()) {
                 boxes[line.getBoxRow()][line.getBoxCol()].setBackground(Color.WHITE);
             }
         }
+
         Button button = buttons[index.getRow()][index.getCol()];
         button.setBackground(Color.WHITE);
         Hover h = new Hover();

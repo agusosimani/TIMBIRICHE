@@ -14,5 +14,7 @@ public class Constants {
     public static final int BOTTOM = 2;
     public static final int LEFT = 3;
     public static final int FULL = 15;
+    public static final int WORSTVALUE = -(int)Math.pow(Parameters.size - 1, 2);
+    public static final int BESTVALUE = (int)Math.pow(Parameters.size - 1, 2);
 
 }

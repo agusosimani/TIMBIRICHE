@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Board {
     private int[][] boxes;
-    private static int playerTurn;
+    private int playerTurn;
     private int[] scores;
     private List<Move> movesDone;
 
@@ -17,6 +17,10 @@ public class Board {
         playerTurn = 1;
         scores = new int[2];
         movesDone = new ArrayList<>();
+    }
+
+    public int[][] getBoxes() {
+        return boxes;
     }
 
     public int getPlayerTurn() { return playerTurn; }
@@ -35,6 +39,18 @@ public class Board {
 
     public int getPlayer2score() { return scores[1]; }
 
+    public int getPlayerScore(int player) { return scores[player-1]; }
+
+    public Board duplicate() {
+        Board clone = new Board();
+        clone.boxes = boxes.clone();
+        clone.playerTurn = playerTurn;
+        clone.scores = scores.clone();
+        clone.movesDone = new ArrayList<>(movesDone);
+
+        return clone;
+    }
+
     void addLine(int row, int col, int player) { // row and col are the indexes of the button in the view matrix
         Line line1, line2;
         boolean continues;
@@ -44,14 +60,14 @@ public class Board {
                 case ISSUPERIOR:
                     line1 = new Line(row,col,TOP);
                     updateBoxes(line1,player);
-                    movesDone.add(new Move(line1,null,player));
+                    movesDone.add(new Move(player,line1));
                     continues = line1.tookBox();
                     break;
 
                 case ISINFERIOR:
                     line1 = new Line(row/2-1,col,BOTTOM);
                     updateBoxes(line1,player);
-                    movesDone.add(new Move(line1,null,player));
+                    movesDone.add(new Move(player,line1));
                     continues = line1.tookBox();
                     break;
 
@@ -60,7 +76,7 @@ public class Board {
                     updateBoxes(line1,player);
                     line2 = new Line(row/2,col,TOP);
                     updateBoxes(line2,player);
-                    movesDone.add(new Move(line1,line2,player));
+                    movesDone.add(new Move(player,line1,line2));
                     continues = line1.tookBox() || line2.tookBox();
                     break;
             }
@@ -69,14 +85,14 @@ public class Board {
                 case ISLEFT:
                     line1 = new Line(row/2,col,LEFT);
                     updateBoxes(line1, player);
-                    movesDone.add(new Move(line1,null, player));
+                    movesDone.add(new Move(player,line1));
                     continues = line1.tookBox();
                     break;
 
                 case ISRIGHT:
                     line1 = new Line(row/2,col-1,RIGHT);
                     updateBoxes(line1,player);
-                    movesDone.add(new Move(line1,null, player));
+                    movesDone.add(new Move(player,line1));
                     continues = line1.tookBox();
                     break;
 
@@ -85,7 +101,7 @@ public class Board {
                     updateBoxes(line1,player);
                     line2 = new Line(row/2,col-1,RIGHT);
                     updateBoxes(line2,player);
-                    movesDone.add(new Move(line1,line2, player));
+                    movesDone.add(new Move(player,line1,line2));
                     continues = line1.tookBox() || line2.tookBox();
                     break;
             }
@@ -122,18 +138,15 @@ public class Board {
             return null;
         }
         Move lastMove = movesDone.remove(movesDone.size()-1);
-        Line line = lastMove.getLine1();
-        if (boxes[line.getBoxRow()][line.getBoxCol()] == FULL) {
-            scores[lastMove.getPlayer()-1] --;
-        }
-        boxes[line.getBoxRow()][line.getBoxCol()] -= Math.pow(2,line.getType());
-        line = lastMove.getLine2();
-        if (line != null) {
+
+        List<Line> lines = lastMove.getLines();
+        for (Line line : lines) {
             if (boxes[line.getBoxRow()][line.getBoxCol()] == FULL) {
                 scores[lastMove.getPlayer()-1] --;
             }
             boxes[line.getBoxRow()][line.getBoxCol()] -= Math.pow(2,line.getType());
         }
+
         playerTurn = lastMove.getPlayer();
         return lastMove;
     }

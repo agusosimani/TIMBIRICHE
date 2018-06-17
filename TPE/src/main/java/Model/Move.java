@@ -1,23 +1,35 @@
 package Model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class Move {
     //A move can modify the lines of two boxes
-    private Line line1;
-    private Line line2;
+    private List<Line> lines;
     private int player;
 
-    Move(Line line1, Line line2, int player) {
-        this.line1 = line1;
-        this.line2 = line2;
+
+    public Move(int player, Line ... lines) {
         this.player = player;
+        this.lines = new ArrayList<>();
+        Collections.addAll(this.lines, lines);
     }
 
-    public Line getLine1() {
-        return line1;
+    public Move() {
+        this.lines = new ArrayList<>();
     }
 
-    public Line getLine2() {
-        return line2;
+    public void addLine(Line line) {
+        lines.add(line);
+    }
+
+    public void addLines(List<Line> lines) {
+        this.lines = lines;
+    }
+
+    public List<Line> getLines() {
+        return lines;
     }
 
     public int getPlayer() {

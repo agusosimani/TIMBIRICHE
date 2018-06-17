@@ -20,9 +20,9 @@ public class GameModel {
         AI ai;
         if (Parameters.ai != PVSP) {
             if (Parameters.ai != 3)
-                ai = new AI(Parameters.ai); //Let him know if he goes first or second
+                ai = new AI(Parameters.ai,board); //Let him know if he goes first or second
             else
-                ai = new AI(1);
+                ai = new AI(1,board);
         }
 
         int row = 0, col = 0;
