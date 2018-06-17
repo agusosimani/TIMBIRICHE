@@ -7,25 +7,27 @@ import static Service.Constants.*;
 public class GameModel {
     private Board board;
     private boolean performMove;
+    private boolean moveCalculated;
 
     public GameModel(Board board) {
         this.board = board;
         this.performMove = false;
+        this.moveCalculated = false;
     }
 
     public Board getBoard() { return board; }
 
     public void gameLoop() {
 
-        AI ai;
+        AI ai = new AI(board);
+        Turn turn = null;
         if (Parameters.ai != PVSP) {
             if (Parameters.ai != 3)
-                ai = new AI(Parameters.ai,board); //Let him know if he goes first or second
+                ai.setPlayer(Parameters.ai); //Let him know if he goes first or second
             else
-                ai = new AI(1,board);
+                ai.setPlayer(1);
         }
 
-        int row = 0, col = 0;
         while(!board.gameOver()) {
             try {
                 Thread.sleep(10);
@@ -35,12 +37,24 @@ public class GameModel {
             }
 
             if (board.getPlayerTurn() == Parameters.ai || Parameters.ai == 3) {
-                if (performMove) {
-                    GameController.placeLine(row++,col++,board.getPlayerTurn());
+                if (!moveCalculated) {
+                    System.out.println("calculating move");
+                    turn = ai.getMove();
+                    System.out.println("finished turn calculation");
+                    moveCalculated = true;
+                }
+                if (performMove && moveCalculated) {
+                    System.out.println("next pressed");
+                    System.out.println(turn);
+                    for (Index index : turn.getLines())
+                        GameController.placeLine(index.getRow(),index.getCol(),board.getPlayerTurn());
                     performMove = false;
+                    moveCalculated = false;
+                    ai.setPlayer(board.getPlayerTurn());
                 }
             }
         }
+
         int winner = board.getWinner();
         GameController.setWinnerView(winner);
     }

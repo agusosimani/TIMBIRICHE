@@ -11,16 +11,14 @@ public class Board {
     private int playerTurn;
     private int[] scores;
     private List<Move> movesDone;
+    private boolean turnContinues;
 
     public Board() {
         boxes = new int[Parameters.size-1][Parameters.size-1];
         playerTurn = 1;
         scores = new int[2];
         movesDone = new ArrayList<>();
-    }
-
-    public int[][] getBoxes() {
-        return boxes;
+        turnContinues = false;
     }
 
     public int getPlayerTurn() { return playerTurn; }
@@ -39,9 +37,9 @@ public class Board {
 
     public int getPlayer2score() { return scores[1]; }
 
-    public int getPlayerScore(int player) { return scores[player-1]; }
+    int getPlayerScore(int player) { return scores[player-1]; }
 
-    public Board duplicate() {
+    Board duplicate() {
         Board clone = new Board();
         clone.boxes = boxes.clone();
         clone.playerTurn = playerTurn;
@@ -51,64 +49,106 @@ public class Board {
         return clone;
     }
 
+    boolean verifyTurn(int row, int col, int player) {
+        return addLine(row,col,player,false);
+    }
+
     void addLine(int row, int col, int player) { // row and col are the indexes of the button in the view matrix
-        Line line1, line2;
+        if (!addLine(row,col,player,true)) {
+            nextPlayer();
+        }
+    }
+
+    // returns true if player's turn continues, false if not
+    private boolean addLine(int row, int col, int player, boolean update) {
+        Move move = new Move(player);
         boolean continues;
         // Check boxes containing the line
         if (isEven(row)) { //horizontal line
             switch (isBorder(row/2)) {
                 case ISSUPERIOR:
-                    line1 = new Line(row,col,TOP);
-                    updateBoxes(line1,player);
-                    movesDone.add(new Move(player,line1));
-                    continues = line1.tookBox();
+                    if (update) {
+                        continues = update(row/2,col,TOP,player,move);
+                        movesDone.add(move);
+                    } else {
+                        return isValid(row/2,col,TOP,player);
+                    }
                     break;
 
                 case ISINFERIOR:
-                    line1 = new Line(row/2-1,col,BOTTOM);
-                    updateBoxes(line1,player);
-                    movesDone.add(new Move(player,line1));
-                    continues = line1.tookBox();
+                    if (update) {
+                        continues = update(row/2-1,col,BOTTOM,player,move);
+                        movesDone.add(move);
+                    } else {
+                        return isValid(row/2-1,col,BOTTOM,player);
+                    }
                     break;
 
                 default: // is not border
-                    line1 = new Line(row/2-1,col,BOTTOM);
-                    updateBoxes(line1,player);
-                    line2 = new Line(row/2,col,TOP);
-                    updateBoxes(line2,player);
-                    movesDone.add(new Move(player,line1,line2));
-                    continues = line1.tookBox() || line2.tookBox();
+                    if (update) {
+                        continues = update(row/2-1,col,BOTTOM,player,move) || update(row/2,col,TOP,player,move);
+                        movesDone.add(move);
+                    } else {
+                        return isValid(row/2-1,col,BOTTOM,player) && isValid(row/2,col,TOP,player);
+                    }
                     break;
             }
         } else { //vertical line
             switch (isBorder(col)) {
                 case ISLEFT:
-                    line1 = new Line(row/2,col,LEFT);
-                    updateBoxes(line1, player);
-                    movesDone.add(new Move(player,line1));
-                    continues = line1.tookBox();
+                    if (update) {
+                        continues = update(row/2,col,LEFT,player,move);
+                        movesDone.add(move);
+                    } else {
+                        return isValid(row/2,col,LEFT,player);
+                    }
                     break;
 
                 case ISRIGHT:
-                    line1 = new Line(row/2,col-1,RIGHT);
-                    updateBoxes(line1,player);
-                    movesDone.add(new Move(player,line1));
-                    continues = line1.tookBox();
+                    if (update) {
+                        continues = update(row/2,col-1,RIGHT,player,move);
+                        movesDone.add(move);
+                    } else {
+                        return isValid(row/2,col-1,RIGHT,player);
+                    }
                     break;
 
                 default: // is not border
-                    line1 = new Line(row/2,col,LEFT);
-                    updateBoxes(line1,player);
-                    line2 = new Line(row/2,col-1,RIGHT);
-                    updateBoxes(line2,player);
-                    movesDone.add(new Move(player,line1,line2));
-                    continues = line1.tookBox() || line2.tookBox();
+                    if (update) {
+                        continues = update(row/2,col,LEFT,player,move) || update(row/2,col-1,RIGHT,player,move);
+                        movesDone.add(move);
+                    } else {
+                        return isValid(row/2,col,LEFT,player) && isValid(row/2,col-1,RIGHT,player);
+                    }
                     break;
             }
         }
-        if (!continues) {
-            nextPlayer();
+        return continues;
+    }
+
+    private boolean update(int row, int col, int type, int player, Move move) {
+        Line line = new Line(row,col,type);
+        updateBoxes(line,player);
+        move.addLine(line);
+        return line.tookBox();
+    }
+
+    private boolean isValid(int row, int col, int type, int player) {
+        int valid = boxes[row][col] >> type;
+        if (valid%2 == 0) {
+            Line line = new Line(row,col,type);
+            updateBoxes(line,player);
+            if (line.tookBox())
+                turnContinues = true;
+            return true;
         }
+        return false;
+    }
+
+    boolean turnContinues() {
+        boolean ret = turnContinues;
+        turnContinues = false;
+        return ret;
     }
 
     private boolean isEven(int num) {
