@@ -6,7 +6,7 @@ import Service.Parameters;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AI {
+class AI {
     private int player;
     private int opponent;
     private Board board;
@@ -18,12 +18,12 @@ public class AI {
         this.side = Parameters.size*2 - 1;
     }
 
-    public void setPlayer(int player) {
+    void setPlayer(int player) {
         this.player = player;
         this.opponent = player == 1 ? 2 : 1;
     }
 
-    public Turn getMove() {
+    Turn getMove() {
         Turn current = new Turn(opponent, Constants.WORSTVALUE, board.duplicate());
         Turn bestMove;
 //        File tree1 = new File("tree.dot");
@@ -65,7 +65,7 @@ public class AI {
             return move;
         }
 
-        List<Turn> children = generateMoves(player);
+        List<Turn> children = generateMoves(player,move.getBoard());
 
         Turn bestMove = new Turn(player,Constants.WORSTVALUE,board.duplicate());
         for (Turn child : children) {
@@ -81,7 +81,7 @@ public class AI {
                 if (child.getValue() > alpha)
                     alpha = child.getValue();
             } else
-                child.setPruned(true);
+                child.setPruned();
         }
         move.setValue(bestMove.getValue());
         return bestMove;
@@ -93,7 +93,7 @@ public class AI {
             return move;
         }
 
-        List<Turn> children = generateMoves(player);
+        List<Turn> children = generateMoves(player,move.getBoard());
 
         Turn bestMove = new Turn(player,Constants.WORSTVALUE,board.duplicate());
         for (Turn child : children) {
@@ -108,7 +108,7 @@ public class AI {
         return bestMove;
     }
 
-    private List<Turn> generateMoves(int player) {
+    private List<Turn> generateMoves(int player, Board board) {
         List<Turn> moves = new ArrayList<>();
 
         int col;
@@ -116,12 +116,12 @@ public class AI {
             col = Parameters.size - 2;
         else
             col = Parameters.size - 1;
-        generateMoves(player, new Turn(player,board.duplicate()), side-1, col,moves);
+        generateMoves(player, new Turn(player,board.duplicate()), side-1, col,moves,board);
 
         return moves;
     }
 
-    private void generateMoves(int player, Turn move, int row, int col, List<Turn> moves) {
+    private void generateMoves(int player, Turn move, int row, int col, List<Turn> moves, Board board) {
         Board moveBoard = move.getBoard();
         if (moveBoard.verifyTurn(row,col,player)) {
             move.addLine(row,col);
@@ -131,7 +131,7 @@ public class AI {
                     newCol = Parameters.size - 2;
                 else
                     newCol = Parameters.size - 1;
-                generateMoves(player,move,side-1,newCol,moves);
+                generateMoves(player,move,side-1,newCol,moves,board);
             }
             moves.add(move);
         }
@@ -143,10 +143,10 @@ public class AI {
                     newCol = Parameters.size - 2;
                 else
                     newCol = Parameters.size - 1;
-                generateMoves(player, new Turn(player, board.duplicate()), newRow, newCol, moves);
+                generateMoves(player, new Turn(player, board.duplicate()), newRow, newCol, moves, board);
             }
         } else {
-            generateMoves(player,new Turn(player,board.duplicate()),row,col - 1,moves);
+            generateMoves(player,new Turn(player,board.duplicate()),row,col - 1,moves, board);
         }
     }
 

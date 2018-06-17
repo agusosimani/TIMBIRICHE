@@ -10,28 +10,24 @@ public class Turn {
     private boolean pruned = false;
     private List<Index> lines;
 
-    public Turn(int player, Board board) {
+    Turn(int player, Board board) {
         this.player = player;
         this.board = board;
         lines = new ArrayList<>();
     }
 
-    public Turn(int player, int value, Board board) {
+    Turn(int player, int value, Board board) {
         this.player = player;
         this.board = board;
         this.value = value;
         lines = new ArrayList<>();
     }
 
-    public int getPlayer() {
-        return player;
-    }
-
-    public Board getBoard() {
+    Board getBoard() {
         return board;
     }
 
-    public int getValue() {
+    int getValue() {
         return value;
     }
 
@@ -39,32 +35,29 @@ public class Turn {
         return pruned;
     }
 
-    public List<Index> getLines() {
+    List<Index> getLines() {
         return lines;
     }
 
-    public void setBoard(Board board) {
-        this.board = board;
-    }
-
-    public void setValue(int value) {
+    void setValue(int value) {
         this.value = value;
     }
 
-    public void setPruned(boolean pruned) {
-        this.pruned = pruned;
+    void setPruned() {
+        this.pruned = true;
     }
 
-    public void addLine(int row, int col) {
+    void addLine(int row, int col) {
         lines.add(new Index(row,col));
     }
 
     @Override
     public String toString() {
-        String s = new String("turn:\n");
+        String s = "turn:\n";
         for (Index index : lines) {
             s = s.concat("row: " + index.getRow() + " col: " + index.getCol() + "\n");
         }
+        s = s.concat(" value: "+value);
         return s;
     }
 }

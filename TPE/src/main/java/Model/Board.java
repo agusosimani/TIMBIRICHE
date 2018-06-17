@@ -41,9 +41,15 @@ public class Board {
 
     Board duplicate() {
         Board clone = new Board();
-        clone.boxes = boxes.clone();
+        clone.boxes = new int[Parameters.size-1][Parameters.size-1];
+        for (int i=0; i<boxes.length; i++) {
+            for (int j=0; j<boxes.length; j++)
+                clone.boxes[i][j] = boxes[i][j];
+        }
         clone.playerTurn = playerTurn;
-        clone.scores = scores.clone();
+        clone.scores = new int[2];
+        clone.scores[0] = scores[0];
+        clone.scores[1] = scores[1];
         clone.movesDone = new ArrayList<>(movesDone);
 
         return clone;
@@ -203,5 +209,17 @@ public class Board {
             return 2;
         }
         return 0;
+    }
+
+    @Override
+    public String toString() {
+        String s = "";
+        for (int i=0; i<Parameters.size-1; i++) {
+            for (int j=0; j<Parameters.size-1; j++) {
+                s = s.concat(boxes[i][j]+" ");
+            }
+            s = s.concat("");
+        }
+        return s;
     }
 }
