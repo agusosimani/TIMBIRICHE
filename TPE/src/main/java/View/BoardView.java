@@ -206,7 +206,7 @@ public class BoardView {
                 }
                 button.removeMouseListener(mouseEvent);
                 button.removeActionListener(this);
-                if (playerTurn != ai && ai!=3) {
+                if (playerTurn != ai && ai!=AIVSAI) {
                     GameController.placeLine(button.getRow(),button.getCol(), playerTurn);
                 }
             }
@@ -312,7 +312,7 @@ public class BoardView {
         Move move = board.getLastMove();
         List<Line> lines = move.getLines();
 
-        if (move.getPlayer() == ai) {
+        if (move.getPlayer() == ai || Parameters.ai == AIVSAI) {
             ButtonIndex index = GameController.getIndex(lines.get(0));
             Button button = buttons[index.getRow()][index.getCol()];
             clickEnabled = true;

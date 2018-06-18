@@ -71,7 +71,6 @@ public class Turn {
 
     @Override
     public String toString() {
-        System.out.println("size lines: "+lines.size());
         String s = "turn: ";
         for (Index index : lines) {
             s = s.concat(" row: " + index.getRow() + " col: " + index.getCol());

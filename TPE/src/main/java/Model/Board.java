@@ -155,6 +155,8 @@ public class Board {
     boolean turnContinues() {
         boolean ret = turnContinues;
         turnContinues = false;
+        if (gameOver())
+            return false;
         return ret;
     }
 

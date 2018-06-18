@@ -64,9 +64,13 @@ public class GameController {
                 switch (Parameters.mode) {
                     case "time":
                         Parameters.maxTime = paramValue;
+                        if (Parameters.maxTime <= 0)
+                            throw new IllegalArgumentException();
                         break;
                     case "depth":
                         Parameters.depth = paramValue;
+                        if(Parameters.depth <= 0)
+                            throw new IllegalArgumentException();
                         break;
                     default:
                         throw new IllegalArgumentException();
@@ -101,7 +105,7 @@ public class GameController {
                     "\t\t2: AI moves second\n" +
                     "\t\t3: AI vs AI\n" +
                     "\t-mode [time|depth] determines if minimax algorithm ends due to time or depth\n" +
-                    "\t-param [k] goes with previous parameter. If mode is 'time', 'k' determines seconds, if mode is 'depth', 'k' determines tree depth\n" +
+                    "\t-param [k] goes with previous parameter. If mode is 'time', 'k' determines seconds, if it is 'depth', tree depth. 'k' should be greater than 0\n" +
                     "\t-prune [on|off] enables or disables prune");
             return;
         }

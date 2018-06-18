@@ -22,7 +22,7 @@ public class GameModel {
         AI ai = new AI(board);
         Turn turn = null;
         if (Parameters.ai != PVSP) {
-            if (Parameters.ai != 3)
+            if (Parameters.ai != AIVSAI)
                 ai.setPlayer(Parameters.ai); //Let him know if he goes first or second
             else
                 ai.setPlayer(1);
@@ -36,7 +36,7 @@ public class GameModel {
                 continue;
             }
 
-            if (board.getPlayerTurn() == Parameters.ai || Parameters.ai == 3) {
+            if (board.getPlayerTurn() == Parameters.ai || Parameters.ai == AIVSAI) {
                 if (!moveCalculated) {
                     turn = ai.getMove();
                     System.out.println("finished turn calculation");
