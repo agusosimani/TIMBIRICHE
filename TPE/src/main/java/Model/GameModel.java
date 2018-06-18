@@ -45,7 +45,6 @@ public class GameModel {
                 if (performMove && moveCalculated) {
                     for (Index index : turn.getLines())
                         GameController.placeLine(index.getRow(),index.getCol(),board.getPlayerTurn());
-                    System.out.println(board);
                     performMove = false;
                     moveCalculated = false;
                     ai.setPlayer(board.getPlayerTurn());
@@ -67,5 +66,9 @@ public class GameModel {
 
     public Move undoMove() {
         return board.undoMove();
+    }
+
+    public void setMoveCalculated() {
+        moveCalculated = false;
     }
 }

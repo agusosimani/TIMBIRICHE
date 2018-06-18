@@ -163,5 +163,6 @@ public class GameController {
         if (move != null) {
             boardView.undoMove(gameModel.getBoard(),move);
         }
+        gameModel.setMoveCalculated();
     }
 }

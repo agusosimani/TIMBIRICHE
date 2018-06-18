@@ -91,7 +91,8 @@ public class Board {
 
                 default: // is not border
                     if (update) {
-                        continues = update(row/2-1,col,BOTTOM,player,move) || update(row/2,col,TOP,player,move);
+                        continues = update(row/2-1,col,BOTTOM,player,move);
+                        continues |= update(row/2,col,TOP,player,move);
                         movesDone.add(move);
                     } else {
                         return isValid(row/2-1,col,BOTTOM,player) && isValid(row/2,col,TOP,player);
@@ -120,7 +121,8 @@ public class Board {
 
                 default: // is not border
                     if (update) {
-                        continues = update(row/2,col,LEFT,player,move) || update(row/2,col-1,RIGHT,player,move);
+                        continues = update(row/2,col,LEFT,player,move);
+                        continues |= update(row/2,col-1,RIGHT,player,move);
                         movesDone.add(move);
                     } else {
                         return isValid(row/2,col,LEFT,player) && isValid(row/2,col-1,RIGHT,player);
