@@ -43,8 +43,7 @@ public class Board {
         Board clone = new Board();
         clone.boxes = new int[Parameters.size-1][Parameters.size-1];
         for (int i=0; i<boxes.length; i++) {
-            for (int j=0; j<boxes.length; j++)
-                clone.boxes[i][j] = boxes[i][j];
+            System.arraycopy(boxes[i], 0, clone.boxes[i], 0, boxes.length);
         }
         clone.playerTurn = playerTurn;
         clone.scores = new int[2];

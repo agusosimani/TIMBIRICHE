@@ -38,16 +38,14 @@ public class GameModel {
 
             if (board.getPlayerTurn() == Parameters.ai || Parameters.ai == 3) {
                 if (!moveCalculated) {
-                    System.out.println("calculating move");
                     turn = ai.getMove();
                     System.out.println("finished turn calculation");
                     moveCalculated = true;
                 }
                 if (performMove && moveCalculated) {
-                    System.out.println("next pressed");
-                    System.out.println(turn);
                     for (Index index : turn.getLines())
                         GameController.placeLine(index.getRow(),index.getCol(),board.getPlayerTurn());
+                    System.out.println(board);
                     performMove = false;
                     moveCalculated = false;
                     ai.setPlayer(board.getPlayerTurn());

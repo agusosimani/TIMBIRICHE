@@ -3,14 +3,11 @@ package Model;
 import Service.Constants;
 import Service.Parameters;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 class AI {
     private int player;
-    private int opponent;
     private Board board;
     private int side;
     //private DotBuilder dot;
@@ -22,7 +19,6 @@ class AI {
 
     void setPlayer(int player) {
         this.player = player;
-        this.opponent = player == 1 ? 2 : 1;
     }
 
     Turn getMove() {
@@ -37,7 +33,7 @@ class AI {
             TimeLimit timeLimit = () -> System.currentTimeMillis() > maxTime;
 
             int depth = 0;
-            Turn move = null;
+            Turn move = current;
 
             do {
                 bestMove = move;
@@ -68,6 +64,7 @@ class AI {
 //            System.out.println(move);
             return move;
         }
+        int opponent = player == 1 ? 2 : 1;
 
         Set<Turn> children = generateMoves(player,move.getBoard());
 
@@ -95,6 +92,7 @@ class AI {
             move.setValue(ponderHeuristicValue(move,player));
             return move;
         }
+        int opponent = player == 1 ? 2 : 1;
 
         Set<Turn> children = generateMoves(player,move.getBoard());
 
@@ -113,7 +111,6 @@ class AI {
 
     private Set<Turn> generateMoves(int player, Board board) {
 
-        System.out.println("\n\n\n\n\n\n new level \n\n\n\n\n\n");
         Set<Turn> moves = new HashSet<>();
 
         int col;
@@ -135,13 +132,9 @@ class AI {
         }
 
         Board moveBoard = move.getBoard();
-        if (moveBoard == board) {
-            System.out.println("fue continues");
-        }
         if (moveBoard.verifyTurn(row,col,player)) {
             move.addLine(row,col);
             if (moveBoard.turnContinues()) {
-                System.out.println("turn continues\n\n\n");
                 int newCol;
                 if ((side-1)%2 == 0)
                     newCol = Parameters.size - 2;
@@ -150,7 +143,6 @@ class AI {
                 generateMoves(player,move,side-1,newCol,moves,moveBoard,true);
             } else {
                 moves.add(move);
-                System.out.println(move);
             }
         }
 
