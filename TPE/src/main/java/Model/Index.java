@@ -1,19 +1,19 @@
 package Model;
 
-public class Index {
+class Index {
     private int row;
     private int col;
 
-    public Index(int row, int col) {
+    Index(int row, int col) {
         this.row = row;
         this.col = col;
     }
 
-    public int getRow() {
+    int getRow() {
         return row;
     }
 
-    public int getCol() {
+    int getCol() {
         return col;
     }
 }

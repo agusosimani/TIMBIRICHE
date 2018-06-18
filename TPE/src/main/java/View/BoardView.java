@@ -67,7 +67,7 @@ public class BoardView {
         header.setBackground(grey);
         header.setLayout(new GridBagLayout());
 
-        JLabel title = new JLabel("TIMBIRICHE");
+        JLabel title = new JLabel("Dots and Boxes");
         title.setFont(new Font("Tahoma",Font.BOLD,25));
         title.setForeground(Color.WHITE);
         title.setBackground(grey);

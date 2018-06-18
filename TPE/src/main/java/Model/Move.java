@@ -10,22 +10,14 @@ public class Move {
     private int player;
 
 
-    public Move(int player, Line ... lines) {
+    Move(int player, Line ... lines) {
         this.player = player;
         this.lines = new ArrayList<>();
         Collections.addAll(this.lines, lines);
     }
 
-    public Move() {
-        this.lines = new ArrayList<>();
-    }
-
-    public void addLine(Line line) {
+    void addLine(Line line) {
         lines.add(line);
-    }
-
-    public void addLines(List<Line> lines) {
-        this.lines = lines;
     }
 
     public List<Line> getLines() {

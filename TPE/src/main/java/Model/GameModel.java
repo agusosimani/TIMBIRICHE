@@ -39,7 +39,8 @@ public class GameModel {
             if (board.getPlayerTurn() == Parameters.ai || Parameters.ai == AIVSAI) {
                 if (!moveCalculated) {
                     turn = ai.getMove();
-                    System.out.println("finished turn calculation");
+                    //System.out.println("finished turn calculation");
+                    //System.out.println(turn);
                     moveCalculated = true;
                 }
                 if (performMove && moveCalculated) {
