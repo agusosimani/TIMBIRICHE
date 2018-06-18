@@ -2,22 +2,20 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Turn {
-    private int player;
     private Board board;
     private int value;
     private boolean pruned = false;
     private List<Index> lines;
 
-    Turn(int player, Board board) {
-        this.player = player;
+    Turn(Board board) {
         this.board = board;
         lines = new ArrayList<>();
     }
 
-    Turn(int player, int value, Board board) {
-        this.player = player;
+    Turn(int value, Board board) {
         this.board = board;
         this.value = value;
         lines = new ArrayList<>();
@@ -51,11 +49,32 @@ public class Turn {
         lines.add(new Index(row,col));
     }
 
+    Turn duplicate() {
+        Turn duplicated = new Turn(board.duplicate());
+        duplicated.lines = new ArrayList<>(lines);
+        return duplicated;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Turn)) return false;
+        Turn turn = (Turn) o;
+        return Objects.equals(lines, turn.lines);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(lines);
+    }
+
     @Override
     public String toString() {
-        String s = "turn:\n";
+        System.out.println("size lines: "+lines.size());
+        String s = "turn: ";
         for (Index index : lines) {
-            s = s.concat("row: " + index.getRow() + " col: " + index.getCol() + "\n");
+            s = s.concat(" row: " + index.getRow() + " col: " + index.getCol());
         }
         s = s.concat(" value: "+value);
         return s;

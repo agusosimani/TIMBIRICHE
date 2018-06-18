@@ -4,7 +4,9 @@ import Service.Constants;
 import Service.Parameters;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 class AI {
     private int player;
@@ -24,7 +26,7 @@ class AI {
     }
 
     Turn getMove() {
-        Turn current = new Turn(opponent, Constants.WORSTVALUE, board.duplicate());
+        Turn current = new Turn(Constants.WORSTVALUE, board.duplicate());
         Turn bestMove;
 //        File tree1 = new File("tree.dot");
 //        File tree2 = new File("tree2.dot");
@@ -60,14 +62,16 @@ class AI {
     }
 
     private Turn negamax(Turn move, int depth, int alpha, int beta, int player, TimeLimit timeLimit) {
-        if (depth == 0 || board.gameOver()) {
+        if (depth == 0 || move.getBoard().gameOver()) {
             move.setValue(ponderHeuristicValue(move,player));
+//            System.out.println(move.getBoard());
+//            System.out.println(move);
             return move;
         }
 
-        List<Turn> children = generateMoves(player,move.getBoard());
+        Set<Turn> children = generateMoves(player,move.getBoard());
 
-        Turn bestMove = new Turn(player,Constants.WORSTVALUE,board.duplicate());
+        Turn bestMove = new Turn(Constants.WORSTVALUE,board.duplicate());
         for (Turn child : children) {
             if (timeLimit.exceeded())
                 break;
@@ -76,7 +80,6 @@ class AI {
                 child.setValue(-negamax(child,depth-1,-beta,-alpha,opponent,timeLimit).getValue());
                 if (child.getValue() > bestMove.getValue()) {
                     bestMove = child;
-                    System.out.println("actualizo");
                 }
                 if (child.getValue() > alpha)
                     alpha = child.getValue();
@@ -93,9 +96,9 @@ class AI {
             return move;
         }
 
-        List<Turn> children = generateMoves(player,move.getBoard());
+        Set<Turn> children = generateMoves(player,move.getBoard());
 
-        Turn bestMove = new Turn(player,Constants.WORSTVALUE,board.duplicate());
+        Turn bestMove = new Turn(Constants.WORSTVALUE,board.duplicate());
         for (Turn child : children) {
             if (timeLimit.exceeded())
                 break;
@@ -108,33 +111,49 @@ class AI {
         return bestMove;
     }
 
-    private List<Turn> generateMoves(int player, Board board) {
-        List<Turn> moves = new ArrayList<>();
+    private Set<Turn> generateMoves(int player, Board board) {
+
+        System.out.println("\n\n\n\n\n\n new level \n\n\n\n\n\n");
+        Set<Turn> moves = new HashSet<>();
 
         int col;
         if ((side-1)%2 == 0)
             col = Parameters.size - 2;
         else
             col = Parameters.size - 1;
-        generateMoves(player, new Turn(player,board.duplicate()), side-1, col,moves,board);
+        generateMoves(player, new Turn(board.duplicate()), side-1, col, moves, board, false);
 
         return moves;
     }
 
-    private void generateMoves(int player, Turn move, int row, int col, List<Turn> moves, Board board) {
+    private void generateMoves(int player, Turn move, int row, int col, Set<Turn> moves, Board board, boolean continues) {
+        Turn nextTurn;
+        if (continues) {
+            nextTurn = move.duplicate();
+        } else {
+            nextTurn = new Turn(board.duplicate());
+        }
+
         Board moveBoard = move.getBoard();
+        if (moveBoard == board) {
+            System.out.println("fue continues");
+        }
         if (moveBoard.verifyTurn(row,col,player)) {
             move.addLine(row,col);
             if (moveBoard.turnContinues()) {
+                System.out.println("turn continues\n\n\n");
                 int newCol;
                 if ((side-1)%2 == 0)
                     newCol = Parameters.size - 2;
                 else
                     newCol = Parameters.size - 1;
-                generateMoves(player,move,side-1,newCol,moves,board);
+                generateMoves(player,move,side-1,newCol,moves,moveBoard,true);
+            } else {
+                moves.add(move);
+                System.out.println(move);
             }
-            moves.add(move);
         }
+
         if (col == 0) {
             if (row != 0) {
                 int newRow = row - 1;
@@ -143,10 +162,10 @@ class AI {
                     newCol = Parameters.size - 2;
                 else
                     newCol = Parameters.size - 1;
-                generateMoves(player, new Turn(player, board.duplicate()), newRow, newCol, moves, board);
+                generateMoves(player, nextTurn, newRow, newCol, moves, board, continues);
             }
         } else {
-            generateMoves(player,new Turn(player,board.duplicate()),row,col - 1,moves, board);
+            generateMoves(player, nextTurn, row,col - 1, moves, board, continues);
         }
     }
 
