@@ -4,13 +4,13 @@ import Service.Constants;
 import Service.Parameters;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 class AI {
     private int player;
     private int side;
     private DotBuilder dot;
+    private Set<Board> analized;
 
     AI(DotBuilder dot) {
         this.side = Parameters.size*2 - 1;
@@ -119,6 +119,8 @@ class AI {
 
     private Set<Turn> generateMoves(int player, Board board) {
 
+        analized = new HashSet<>();
+
         Set<Index> possibleIndexes = getPossibleIndexes(player, board.duplicate());
 
         Set<Turn> moves = new HashSet<>();
@@ -149,9 +151,12 @@ class AI {
             if (aux.getBoard().verifyTurn(index.getRow(),index.getCol(),player)) {
                 aux.addLine(index.getRow(),index.getCol());
                 if (aux.getBoard().turnContinues()) {
-                    Set<Index> indexesLeft = new HashSet<>(possibleIndexes);
-                    indexesLeft.remove(index);
-                    generateMoves(player,aux,indexesLeft,moves);
+                    if (!analized.contains(aux.getBoard())) {
+                        analized.add(aux.getBoard());
+                        Set<Index> indexesLeft = new HashSet<>(possibleIndexes);
+                        indexesLeft.remove(index);
+                        generateMoves(player,aux,indexesLeft,moves);
+                    }
                 } else {
                     moves.add(aux);
                 }

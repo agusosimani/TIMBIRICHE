@@ -4,6 +4,7 @@ import Service.Parameters;
 import static Service.Constants.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Board {
@@ -224,5 +225,18 @@ public class Board {
             s = s.concat("");
         }
         return s;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Board)) return false;
+        Board board = (Board) o;
+        return Arrays.equals(boxes, board.boxes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(boxes);
     }
 }
