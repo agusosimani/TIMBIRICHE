@@ -24,7 +24,7 @@ class AI {
 
     Turn getMove() {
         int opponent = player == 1 ? 2 : 1;
-        Turn first = new Turn(opponent, Constants.WORSTVALUE, board.duplicate());
+        Turn first = new Turn(player, Constants.WORSTVALUE, board.duplicate());
         first.setFirst();
         Turn bestMove;
 

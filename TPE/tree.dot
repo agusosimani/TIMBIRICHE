@@ -1,80 +1,296 @@
 digraph {
 1 -> 2
-2 [label = "(0,0)(0,1)  0" , shape = ellipse]
+2 [label = "(1,0)(1,1)  0" , shape = ellipse]
 1 -> 3
-3 [label = "(0,1)(1,1)  0" , shape = ellipse]
-2 [color= red , style = filled ]
-1 [label = "(1,0)(1,1)  0" , shape = rectangle]
-4 -> 1
-1 [label = "(1,0)(1,1)  0" , shape = rectangle]
-5 -> 6
-6 [label = "(1,0)(1,1)  0" , shape = ellipse]
-5 -> 7
-7 [label = "(0,0)(0,1) " , shape = ellipse, color = grey, style = filled]
-6 [color= red , style = filled ]
-5 [label = "(0,1)(1,1)  0" , shape = rectangle]
-4 -> 5
-5 [label = "(0,1)(1,1)  0" , shape = rectangle]
-8 -> 9
-9 [label = "(1,0)(1,1)  0" , shape = ellipse]
-8 -> 10
-10 [label = "(0,1)(1,1) " , shape = ellipse, color = grey, style = filled]
-9 [color= red , style = filled ]
-8 [label = "(0,0)(0,1)  0" , shape = rectangle]
-4 -> 8
-8 [label = "(0,0)(0,1)  0" , shape = rectangle]
-1 [color= red , style = filled ]
-4 [label = "(0,0)(1,0)  0" , shape = ellipse]
-11 -> 4
-4 [label = "(0,0)(1,0)  0" , shape = ellipse]
-12 -> 13
-13 [label = "(0,0)(1,0)  0" , shape = ellipse]
-12 -> 14
-14 [label = "(1,0)(1,1)  0" , shape = ellipse]
-13 [color= red , style = filled ]
-12 [label = "(0,1)(1,1)  0" , shape = rectangle]
-15 -> 12
-12 [label = "(0,1)(1,1)  0" , shape = rectangle]
-15 -> 16
-16 [label = "(1,0)(1,1) " , shape = rectangle, color = grey, style = filled]
-15 -> 17
-17 [label = "(0,0)(1,0) " , shape = rectangle, color = grey, style = filled]
-12 [color= red , style = filled ]
-15 [label = "(0,0)(0,1)  0" , shape = ellipse]
-11 -> 15
-15 [label = "(0,0)(0,1)  0" , shape = ellipse]
-18 -> 19
-19 [label = "(1,0)(1,1)  0" , shape = ellipse]
-18 -> 20
-20 [label = "(0,0)(1,0)  0" , shape = ellipse]
-19 [color= red , style = filled ]
-18 [label = "(0,0)(0,1)  0" , shape = rectangle]
-21 -> 18
-18 [label = "(0,0)(0,1)  0" , shape = rectangle]
-21 -> 22
-22 [label = "(0,0)(1,0) " , shape = rectangle, color = grey, style = filled]
-21 -> 23
-23 [label = "(1,0)(1,1) " , shape = rectangle, color = grey, style = filled]
-18 [color= red , style = filled ]
-21 [label = "(0,1)(1,1)  0" , shape = ellipse]
-11 -> 21
-21 [label = "(0,1)(1,1)  0" , shape = ellipse]
-24 -> 25
-25 [label = "(0,0)(0,1)  0" , shape = ellipse]
-24 -> 26
-26 [label = "(0,1)(1,1)  0" , shape = ellipse]
-25 [color= red , style = filled ]
-24 [label = "(0,0)(1,0)  0" , shape = rectangle]
-27 -> 24
-24 [label = "(0,0)(1,0)  0" , shape = rectangle]
-27 -> 28
-28 [label = "(0,0)(0,1) " , shape = rectangle, color = grey, style = filled]
-27 -> 29
-29 [label = "(0,1)(1,1) " , shape = rectangle, color = grey, style = filled]
-24 [color= red , style = filled ]
-27 [label = "(1,0)(1,1)  0" , shape = ellipse]
-11 -> 27
-27 [label = "(1,0)(1,1)  0" , shape = ellipse]
+3 [label = "(1,1)(2,1) (1,0)(1,1)  1" , shape = ellipse]
+1 -> 4
+4 [label = "(0,1)(1,1) (1,0)(1,1) (1,0)(2,0)  2" , shape = ellipse]
+1 -> 5
+5 [label = "(1,0)(2,0)  0" , shape = ellipse]
 4 [color= red , style = filled ]
-11 [label = "START 2" shape = rectangle, color = red, style = filled ]
+1 [label = "(2,0)(2,1)  2" , shape = rectangle]
+6 -> 1
+1 [label = "(2,0)(2,1)  -2" , shape = rectangle]
+7 -> 8
+8 [label = "(2,0)(2,1)  1" , shape = ellipse]
+7 -> 9
+9 [label = "(2,0)(2,1)  -1" , shape = ellipse]
+7 -> 10
+10 [label = "(1,0)(2,0)  -1" , shape = ellipse]
+7 -> 11
+11 [label = "(1,0)(2,0)  1" , shape = ellipse]
+8 [color= red , style = filled ]
+7 [label = "(1,1)(2,1) (1,0)(1,1)  1" , shape = rectangle]
+6 -> 7
+7 [label = "(1,1)(2,1) (1,0)(1,1)  -1" , shape = rectangle]
+12 -> 13
+13 [label = "(2,0)(2,1)  -2" , shape = ellipse]
+12 -> 14
+14 [label = "(1,1)(2,1) (2,0)(2,1)  0" , shape = ellipse]
+14 [color= red , style = filled ]
+12 [label = "(0,1)(1,1) (1,0)(1,1) (1,0)(2,0)  0" , shape = rectangle]
+6 -> 12
+12 [label = "(0,1)(1,1) (1,0)(1,1) (1,0)(2,0)  0" , shape = rectangle]
+15 -> 16
+16 [label = "(0,1)(1,1) (1,1)(2,1) (1,0)(2,0)  3" , shape = ellipse]
+15 -> 17
+17 [label = "(1,0)(2,0) " , shape = ellipse, color = grey, style = filled]
+15 -> 18
+18 [label = "(1,0)(2,0) " , shape = ellipse, color = grey, style = filled]
+15 -> 19
+19 [label = "(2,0)(2,1) " , shape = ellipse, color = grey, style = filled]
+15 -> 20
+20 [label = "(2,0)(2,1) " , shape = ellipse, color = grey, style = filled]
+16 [color= red , style = filled ]
+15 [label = "(1,0)(1,1)  3" , shape = rectangle]
+6 -> 15
+15 [label = "(1,0)(1,1)  -3" , shape = rectangle]
+21 -> 22
+22 [label = "(2,0)(2,1)  0" , shape = ellipse]
+21 -> 23
+23 [label = "(1,0)(1,1) " , shape = ellipse, color = grey, style = filled]
+21 -> 24
+24 [label = "(0,1)(1,1) (1,0)(1,1) (2,0)(2,1) " , shape = ellipse, color = grey, style = filled]
+21 -> 25
+25 [label = "(1,1)(2,1) (1,0)(1,1) " , shape = ellipse, color = grey, style = filled]
+22 [color= red , style = filled ]
+21 [label = "(1,0)(2,0)  0" , shape = rectangle]
+6 -> 21
+21 [label = "(1,0)(2,0)  0" , shape = rectangle]
+12 [color= red , style = filled ]
+6 [label = "(0,2)(1,2)  0" , shape = ellipse]
+26 -> 6
+6 [label = "(0,2)(1,2)  0" , shape = ellipse]
+27 -> 28
+28 [label = "(2,0)(2,1)  0" , shape = ellipse]
+27 -> 29
+29 [label = "(2,0)(2,1)  -1" , shape = ellipse]
+27 -> 30
+30 [label = "(0,2)(1,2)  2" , shape = ellipse]
+27 -> 31
+31 [label = "(1,1)(2,1) (2,0)(2,1)  2" , shape = ellipse]
+30 [color= red , style = filled ]
+27 [label = "(1,0)(1,1) (1,0)(2,0)  2" , shape = rectangle]
+32 -> 27
+27 [label = "(1,0)(1,1) (1,0)(2,0)  -2" , shape = rectangle]
+33 -> 34
+34 [label = "(0,2)(1,2) (1,0)(2,0)  1" , shape = ellipse]
+33 -> 35
+35 [label = "(1,1)(2,1) (1,0)(1,1) (1,0)(2,0) (0,2)(1,2)  4" , shape = ellipse]
+33 -> 36
+36 [label = "(1,0)(1,1) (1,0)(2,0) " , shape = ellipse, color = grey, style = filled]
+33 -> 37
+37 [label = "(1,0)(2,0) " , shape = ellipse, color = grey, style = filled]
+35 [color= red , style = filled ]
+33 [label = "(2,0)(2,1)  4" , shape = rectangle]
+32 -> 33
+33 [label = "(2,0)(2,1)  -4" , shape = rectangle]
+38 -> 39
+39 [label = "(2,0)(2,1)  1" , shape = ellipse]
+38 -> 40
+40 [label = "(1,0)(1,1) (2,0)(2,1)  2" , shape = ellipse]
+38 -> 41
+41 [label = "(2,0)(2,1) " , shape = ellipse, color = grey, style = filled]
+38 -> 42
+42 [label = "(1,0)(1,1) (2,0)(2,1) " , shape = ellipse, color = grey, style = filled]
+38 -> 43
+43 [label = "(1,1)(2,1) (1,0)(1,1) (2,0)(2,1) " , shape = ellipse, color = grey, style = filled]
+38 -> 44
+44 [label = "(0,2)(1,2) " , shape = ellipse, color = grey, style = filled]
+40 [color= red , style = filled ]
+38 [label = "(1,0)(2,0)  2" , shape = rectangle]
+32 -> 38
+38 [label = "(1,0)(2,0)  -2" , shape = rectangle]
+45 -> 46
+46 [label = "(0,2)(1,2)  0" , shape = ellipse]
+45 -> 47
+47 [label = "(2,0)(2,1)  0" , shape = ellipse]
+46 [color= red , style = filled ]
+45 [label = "(1,1)(2,1) (1,0)(1,1) (1,0)(2,0)  0" , shape = rectangle]
+32 -> 45
+45 [label = "(1,1)(2,1) (1,0)(1,1) (1,0)(2,0)  0" , shape = rectangle]
+32 -> 48
+48 [label = "(0,2)(1,2) (1,0)(2,0) " , shape = rectangle, color = grey, style = filled]
+45 [color= red , style = filled ]
+32 [label = "(0,1)(1,1)  0" , shape = ellipse]
+26 -> 32
+32 [label = "(0,1)(1,1)  0" , shape = ellipse]
+49 -> 50
+50 [label = "(0,2)(1,2)  1" , shape = ellipse]
+49 -> 51
+51 [label = "(0,1)(1,1) (0,2)(1,2) (1,0)(2,0)  4" , shape = ellipse]
+49 -> 52
+52 [label = "(1,0)(2,0) (0,2)(1,2)  2" , shape = ellipse]
+51 [color= red , style = filled ]
+49 [label = "(2,0)(2,1)  4" , shape = rectangle]
+53 -> 49
+49 [label = "(2,0)(2,1)  -4" , shape = rectangle]
+54 -> 55
+55 [label = "(2,0)(2,1)  0" , shape = ellipse]
+55 [color= red , style = filled ]
+54 [label = "(0,1)(1,1) (0,2)(1,2) (1,0)(2,0)  0" , shape = rectangle]
+53 -> 54
+54 [label = "(0,1)(1,1) (0,2)(1,2) (1,0)(2,0)  0" , shape = rectangle]
+53 -> 56
+56 [label = "(1,0)(2,0) " , shape = rectangle, color = grey, style = filled]
+53 -> 57
+57 [label = "(0,2)(1,2) " , shape = rectangle, color = grey, style = filled]
+54 [color= red , style = filled ]
+53 [label = "(1,1)(2,1) (1,0)(1,1)  0" , shape = ellipse]
+26 -> 53
+53 [label = "(1,1)(2,1) (1,0)(1,1)  0" , shape = ellipse]
+58 -> 59
+59 [label = "(0,2)(1,2)  0" , shape = ellipse]
+58 -> 60
+60 [label = "(1,1)(2,1) (1,0)(1,1) (0,1)(1,1) (0,2)(1,2)  4" , shape = ellipse]
+58 -> 61
+61 [label = "(1,0)(1,1)  0" , shape = ellipse]
+58 -> 62
+62 [label = "(0,1)(1,1)  0" , shape = ellipse]
+60 [color= red , style = filled ]
+58 [label = "(2,0)(2,1)  4" , shape = rectangle]
+63 -> 58
+58 [label = "(2,0)(2,1)  -4" , shape = rectangle]
+64 -> 65
+65 [label = "(0,1)(1,1) (1,0)(1,1) (2,0)(2,1)  2" , shape = ellipse]
+64 -> 66
+66 [label = "(1,1)(2,1) (1,0)(1,1)  1" , shape = ellipse]
+64 -> 67
+67 [label = "(2,0)(2,1)  0" , shape = ellipse]
+64 -> 68
+68 [label = "(1,0)(1,1)  0" , shape = ellipse]
+65 [color= red , style = filled ]
+64 [label = "(0,2)(1,2)  2" , shape = rectangle]
+63 -> 64
+64 [label = "(0,2)(1,2)  -2" , shape = rectangle]
+69 -> 70
+70 [label = "(2,0)(2,1)  0" , shape = ellipse]
+69 -> 71
+71 [label = "(0,2)(1,2)  0" , shape = ellipse]
+69 -> 72
+72 [label = "(2,0)(2,1)  4" , shape = ellipse]
+69 -> 73
+73 [label = "(1,1)(2,1) (2,0)(2,1) " , shape = ellipse, color = grey, style = filled]
+69 -> 74
+74 [label = "(2,0)(2,1) " , shape = ellipse, color = grey, style = filled]
+72 [color= red , style = filled ]
+69 [label = "(1,0)(1,1)  4" , shape = rectangle]
+63 -> 69
+69 [label = "(1,0)(1,1)  -4" , shape = rectangle]
+75 -> 76
+76 [label = "(0,2)(1,2)  0" , shape = ellipse]
+75 -> 77
+77 [label = "(0,2)(1,2)  -1" , shape = ellipse]
+75 -> 78
+78 [label = "(2,0)(2,1)  2" , shape = ellipse]
+75 -> 79
+79 [label = "(0,1)(1,1) (0,2)(1,2) " , shape = ellipse, color = grey, style = filled]
+78 [color= red , style = filled ]
+75 [label = "(1,1)(2,1) (1,0)(1,1)  2" , shape = rectangle]
+63 -> 75
+75 [label = "(1,1)(2,1) (1,0)(1,1)  -2" , shape = rectangle]
+80 -> 81
+81 [label = "(1,0)(1,1) (2,0)(2,1)  2" , shape = ellipse]
+80 -> 82
+82 [label = "(2,0)(2,1) " , shape = ellipse, color = grey, style = filled]
+80 -> 83
+83 [label = "(0,2)(1,2) " , shape = ellipse, color = grey, style = filled]
+80 -> 84
+84 [label = "(1,1)(2,1) (1,0)(1,1) (2,0)(2,1) " , shape = ellipse, color = grey, style = filled]
+80 -> 85
+85 [label = "(2,0)(2,1) " , shape = ellipse, color = grey, style = filled]
+80 -> 86
+86 [label = "(1,0)(1,1) (2,0)(2,1) " , shape = ellipse, color = grey, style = filled]
+81 [color= red , style = filled ]
+80 [label = "(0,1)(1,1)  2" , shape = rectangle]
+63 -> 80
+80 [label = "(0,1)(1,1)  -2" , shape = rectangle]
+64 [color= red , style = filled ]
+63 [label = "(1,0)(2,0)  -2" , shape = ellipse]
+26 -> 63
+63 [label = "(1,0)(2,0)  2" , shape = ellipse]
+87 -> 88
+88 [label = "(1,0)(2,0)  0" , shape = ellipse]
+87 -> 89
+89 [label = "(0,1)(1,1) (1,1)(2,1) (1,0)(2,0)  3" , shape = ellipse]
+87 -> 90
+90 [label = "(1,0)(2,0)  3" , shape = ellipse]
+87 -> 91
+91 [label = "(2,0)(2,1)  0" , shape = ellipse]
+87 -> 92
+92 [label = "(2,0)(2,1)  3" , shape = ellipse]
+89 [color= red , style = filled ]
+87 [label = "(0,2)(1,2)  3" , shape = rectangle]
+93 -> 87
+87 [label = "(0,2)(1,2)  -3" , shape = rectangle]
+94 -> 95
+95 [label = "(2,0)(2,1)  -2" , shape = ellipse]
+95 [color= red , style = filled ]
+94 [label = "(1,1)(2,1) (0,1)(1,1) (0,2)(1,2) (1,0)(2,0)  -2" , shape = rectangle]
+93 -> 94
+94 [label = "(1,1)(2,1) (0,1)(1,1) (0,2)(1,2) (1,0)(2,0)  2" , shape = rectangle]
+93 -> 96
+96 [label = "(1,0)(2,0) " , shape = rectangle, color = grey, style = filled]
+93 -> 97
+97 [label = "(0,1)(1,1) (0,2)(1,2) (1,0)(2,0) " , shape = rectangle, color = grey, style = filled]
+93 -> 98
+98 [label = "(2,0)(2,1) " , shape = rectangle, color = grey, style = filled]
+94 [color= red , style = filled ]
+93 [label = "(1,0)(1,1)  2" , shape = ellipse]
+26 -> 93
+93 [label = "(1,0)(1,1)  -2" , shape = ellipse]
+99 -> 100
+100 [label = "(1,1)(2,1) (0,1)(1,1) (0,2)(1,2) (1,0)(2,0)  4" , shape = ellipse]
+99 -> 101
+101 [label = "(1,0)(2,0)  0" , shape = ellipse]
+99 -> 102
+102 [label = "(0,2)(1,2)  0" , shape = ellipse]
+99 -> 103
+103 [label = "(0,1)(1,1) (0,2)(1,2) (1,0)(2,0)  2" , shape = ellipse]
+100 [color= red , style = filled ]
+99 [label = "(1,0)(1,1)  4" , shape = rectangle]
+104 -> 99
+99 [label = "(1,0)(1,1)  -4" , shape = rectangle]
+105 -> 106
+106 [label = "(1,1)(2,1) (1,0)(1,1) (1,0)(2,0) (0,2)(1,2)  4" , shape = ellipse]
+105 -> 107
+107 [label = "(1,0)(1,1) (1,0)(2,0) " , shape = ellipse, color = grey, style = filled]
+105 -> 108
+108 [label = "(1,0)(2,0) " , shape = ellipse, color = grey, style = filled]
+105 -> 109
+109 [label = "(0,2)(1,2) (1,0)(2,0) " , shape = ellipse, color = grey, style = filled]
+106 [color= red , style = filled ]
+105 [label = "(0,1)(1,1)  4" , shape = rectangle]
+104 -> 105
+105 [label = "(0,1)(1,1)  -4" , shape = rectangle]
+110 -> 111
+111 [label = "(1,1)(2,1) (1,0)(1,1) (0,1)(1,1) (0,2)(1,2)  4" , shape = ellipse]
+110 -> 112
+112 [label = "(0,2)(1,2) " , shape = ellipse, color = grey, style = filled]
+110 -> 113
+113 [label = "(1,0)(1,1) " , shape = ellipse, color = grey, style = filled]
+110 -> 114
+114 [label = "(0,1)(1,1) " , shape = ellipse, color = grey, style = filled]
+111 [color= red , style = filled ]
+110 [label = "(1,0)(2,0)  4" , shape = rectangle]
+104 -> 110
+110 [label = "(1,0)(2,0)  -4" , shape = rectangle]
+115 -> 116
+116 [label = "(1,0)(2,0) (0,2)(1,2)  0" , shape = ellipse]
+115 -> 117
+117 [label = "(0,2)(1,2)  -1" , shape = ellipse]
+115 -> 118
+118 [label = "(0,1)(1,1) (0,2)(1,2) (1,0)(2,0)  2" , shape = ellipse]
+118 [color= red , style = filled ]
+115 [label = "(1,1)(2,1) (1,0)(1,1)  2" , shape = rectangle]
+104 -> 115
+115 [label = "(1,1)(2,1) (1,0)(1,1)  -2" , shape = rectangle]
+104 -> 119
+119 [label = "(0,2)(1,2) " , shape = rectangle, color = grey, style = filled]
+115 [color= red , style = filled ]
+104 [label = "(2,0)(2,1)  -2" , shape = ellipse]
+26 -> 104
+104 [label = "(2,0)(2,1)  2" , shape = ellipse]
+63 [color= red , style = filled ]
+26 [label = "START 1" shape = ellipse, color = red, style = filled ]
 }

@@ -105,17 +105,12 @@ public class Turn {
                 if (index.getRow() == 0)
                     fromRow = toRow = index.getRow();
                 else
-                    fromRow = toRow = index.getRow() - 1;
-                if (index.getCol() == 0) {
-                    fromCol = 0;
-                    toCol = 1;
-                } else {
-                    fromCol = index.getCol();
-                    toCol = index.getCol() + 1;
-                }
+                    fromRow = toRow = index.getRow() / 2;
+                fromCol = index.getCol();
+                toCol = index.getCol() + 1;
             } else {
-                fromRow = index.getRow() - 1;
-                toRow = index.getRow();
+                fromRow = index.getRow() / 2;
+                toRow = index.getRow() / 2 + 1;
                 fromCol = toCol = index.getCol();
             }
             s.append("(").append(fromRow).append(",").append(fromCol).append(")(").append(toRow).append(",").append(toCol).append(") ");
