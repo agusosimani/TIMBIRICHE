@@ -38,7 +38,7 @@ public class DotBuilder {
     void setLabel(Turn node) {
         addNode(node);
         if (node.isFirst())
-            tree += node.getId() + " [label = \"START " + node.getPlayer() +"\" shape = " + getShape(node) + ", color = red, style = filled ]\n";
+            tree += node.getId() + " [label = \"START " + startingPlayer +"\" shape = " + getShape(node) + ", color = red, style = filled ]\n";
         else
             tree += getOutput(node);
     }

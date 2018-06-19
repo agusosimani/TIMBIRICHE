@@ -76,6 +76,8 @@ public class Turn {
         lines.add(new Index(row,col));
     }
 
+    void removeLine() { lines.remove(lines.size() - 1); }
+
     Turn duplicate() {
         Turn duplicated = new Turn(player, board.duplicate());
         duplicated.lines = new ArrayList<>(lines);

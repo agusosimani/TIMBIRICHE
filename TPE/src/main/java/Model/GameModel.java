@@ -19,7 +19,7 @@ public class GameModel {
 
     public void gameLoop(DotBuilder dot) {
 
-        AI ai = new AI(board, dot);
+        AI ai = new AI(dot);
         Turn turn = null;
 
         while(!board.gameOver()) {
@@ -33,9 +33,7 @@ public class GameModel {
             if (board.getPlayerTurn() == Parameters.ai || Parameters.ai == AIVSAI) {
                 if (!moveCalculated) {
                     ai.setPlayer(board.getPlayerTurn());
-                    turn = ai.getMove();
-                    //System.out.println("finished turn calculation");
-                    //System.out.println(turn);
+                    turn = ai.getMove(board);
                     moveCalculated = true;
                 }
                 if (performMove && moveCalculated) {
