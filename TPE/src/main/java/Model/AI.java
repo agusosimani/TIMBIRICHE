@@ -4,6 +4,7 @@ import Service.Constants;
 import Service.Parameters;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 class AI {
@@ -118,40 +119,43 @@ class AI {
 
     private Set<Turn> generateMoves(int player, Board board) {
 
+        Set<Index> possibleIndexes = getPossibleIndexes(player, board.duplicate());
+
         Set<Turn> moves = new HashSet<>();
 
-        Index index = getFinalIndex(side-1);
-        generateMoves(player, new Turn(player,board.duplicate()), index.getRow(), index.getCol(), moves, board, false);
+        generateMoves(player, new Turn(player,board.duplicate()), possibleIndexes, moves);
 
         return moves;
     }
 
-    private void generateMoves(int player, Turn move, int row, int col, Set<Turn> moves, Board board, boolean continues) {
-        Turn nextTurn;
-        if (continues) {
-            nextTurn = move.duplicate();
-        } else {
-            nextTurn = new Turn(player,board.duplicate());
-        }
-
-        Board moveBoard = move.getBoard();
-        if (moveBoard.verifyTurn(row,col,player)) {
-            move.addLine(row,col);
-            if (moveBoard.turnContinues()) {
-                Index index = getFinalIndex(side-1);
-                generateMoves(player,move,index.getRow(),index.getCol(),moves,moveBoard,true);
-            } else {
-                moves.add(move);
+    private Set<Index> getPossibleIndexes(int player, Board board) {
+        Set<Index> possibleIndexes = new HashSet<>();
+        for (int row=0; row<side; row++) {
+            for (int col=0; col<Parameters.size; col++) {
+                if (!(row%2==0 && col==Parameters.size-1))
+                    if (board.verifyTurn(row,col,player))
+                        possibleIndexes.add(new Index(row,col));
             }
         }
+        return possibleIndexes;
+    }
 
-        if (col == 0) {
-            if (row != 0) {
-                Index index = getFinalIndex(row-1);
-                generateMoves(player, nextTurn, index.getRow(), index.getCol(), moves, board, continues);
+    private void generateMoves(int player, Turn move, Set<Index> possibleIndexes, Set<Turn> moves) {
+        if (possibleIndexes.isEmpty())
+            moves.add(move);
+
+        for (Index index : possibleIndexes) {
+            Turn aux = move.duplicate();
+            if (aux.getBoard().verifyTurn(index.getRow(),index.getCol(),player)) {
+                aux.addLine(index.getRow(),index.getCol());
+                if (aux.getBoard().turnContinues()) {
+                    Set<Index> indexesLeft = new HashSet<>(possibleIndexes);
+                    indexesLeft.remove(index);
+                    generateMoves(player,aux,indexesLeft,moves);
+                } else {
+                    moves.add(aux);
+                }
             }
-        } else {
-            generateMoves(player, nextTurn, row,col - 1, moves, board, continues);
         }
     }
 
