@@ -1,40 +1,80 @@
 digraph {
 1 -> 2
-2 [label = "(0,1)(2,1)  2" , shape = rectangle]
+2 [label = "(0,0)(0,1)  0" , shape = ellipse]
 1 -> 3
-3 [label = "(2,0)(1,0)  2" , shape = rectangle]
+3 [label = "(0,1)(1,1)  0" , shape = ellipse]
 2 [color= red , style = filled ]
-1 [label = "(2,1)(2,2) (0,0)(1,0)  2" , shape = ellipse]
+1 [label = "(1,0)(1,1)  0" , shape = rectangle]
 4 -> 1
-1 [label = "(2,1)(2,2) (0,0)(1,0)  -2" , shape = ellipse]
+1 [label = "(1,0)(1,1)  0" , shape = rectangle]
 5 -> 6
-6 [label = "(2,1)(2,2) (0,1)(2,1)  2" , shape = rectangle]
+6 [label = "(1,0)(1,1)  0" , shape = ellipse]
 5 -> 7
-7 [label = "(0,1)(2,1) (2,1)(2,2) " , shape = rectangle, color = grey, style = filled]
+7 [label = "(0,0)(0,1) " , shape = ellipse, color = grey, style = filled]
 6 [color= red , style = filled ]
-5 [label = "(2,0)(1,0) (0,0)(1,0)  2" , shape = ellipse]
+5 [label = "(0,1)(1,1)  0" , shape = rectangle]
 4 -> 5
-5 [label = "(2,0)(1,0) (0,0)(1,0)  -2" , shape = ellipse]
+5 [label = "(0,1)(1,1)  0" , shape = rectangle]
 8 -> 9
-9 [label = "(2,1)(2,2) (0,0)(1,0) (2,0)(1,0)  4" , shape = rectangle]
+9 [label = "(1,0)(1,1)  0" , shape = ellipse]
 8 -> 10
-10 [label = "(2,0)(1,0) (0,0)(1,0) (2,1)(2,2) " , shape = rectangle, color = grey, style = filled]
-8 -> 11
-11 [label = "(0,0)(1,0) (2,0)(1,0) (2,1)(2,2) " , shape = rectangle, color = grey, style = filled]
+10 [label = "(0,1)(1,1) " , shape = ellipse, color = grey, style = filled]
 9 [color= red , style = filled ]
-8 [label = "(0,1)(2,1)  4" , shape = ellipse]
+8 [label = "(0,0)(0,1)  0" , shape = rectangle]
 4 -> 8
-8 [label = "(0,1)(2,1)  -4" , shape = ellipse]
-12 -> 13
-13 [label = "(0,1)(2,1) (2,1)(2,2) (2,0)(1,0)  4" , shape = rectangle]
-12 -> 14
-14 [label = "(2,0)(1,0) (2,1)(2,2) (0,1)(2,1) " , shape = rectangle, color = grey, style = filled]
-12 -> 15
-15 [label = "(2,0)(1,0) " , shape = rectangle, color = grey, style = filled]
-13 [color= red , style = filled ]
-12 [label = "(0,0)(1,0)  4" , shape = ellipse]
-4 -> 12
-12 [label = "(0,0)(1,0)  -4" , shape = ellipse]
+8 [label = "(0,0)(0,1)  0" , shape = rectangle]
 1 [color= red , style = filled ]
-4 [label = "START" shape = rectangle, color = red, style = filled ]
+4 [label = "(0,0)(1,0)  0" , shape = ellipse]
+11 -> 4
+4 [label = "(0,0)(1,0)  0" , shape = ellipse]
+12 -> 13
+13 [label = "(0,0)(1,0)  0" , shape = ellipse]
+12 -> 14
+14 [label = "(1,0)(1,1)  0" , shape = ellipse]
+13 [color= red , style = filled ]
+12 [label = "(0,1)(1,1)  0" , shape = rectangle]
+15 -> 12
+12 [label = "(0,1)(1,1)  0" , shape = rectangle]
+15 -> 16
+16 [label = "(1,0)(1,1) " , shape = rectangle, color = grey, style = filled]
+15 -> 17
+17 [label = "(0,0)(1,0) " , shape = rectangle, color = grey, style = filled]
+12 [color= red , style = filled ]
+15 [label = "(0,0)(0,1)  0" , shape = ellipse]
+11 -> 15
+15 [label = "(0,0)(0,1)  0" , shape = ellipse]
+18 -> 19
+19 [label = "(1,0)(1,1)  0" , shape = ellipse]
+18 -> 20
+20 [label = "(0,0)(1,0)  0" , shape = ellipse]
+19 [color= red , style = filled ]
+18 [label = "(0,0)(0,1)  0" , shape = rectangle]
+21 -> 18
+18 [label = "(0,0)(0,1)  0" , shape = rectangle]
+21 -> 22
+22 [label = "(0,0)(1,0) " , shape = rectangle, color = grey, style = filled]
+21 -> 23
+23 [label = "(1,0)(1,1) " , shape = rectangle, color = grey, style = filled]
+18 [color= red , style = filled ]
+21 [label = "(0,1)(1,1)  0" , shape = ellipse]
+11 -> 21
+21 [label = "(0,1)(1,1)  0" , shape = ellipse]
+24 -> 25
+25 [label = "(0,0)(0,1)  0" , shape = ellipse]
+24 -> 26
+26 [label = "(0,1)(1,1)  0" , shape = ellipse]
+25 [color= red , style = filled ]
+24 [label = "(0,0)(1,0)  0" , shape = rectangle]
+27 -> 24
+24 [label = "(0,0)(1,0)  0" , shape = rectangle]
+27 -> 28
+28 [label = "(0,0)(0,1) " , shape = rectangle, color = grey, style = filled]
+27 -> 29
+29 [label = "(0,1)(1,1) " , shape = rectangle, color = grey, style = filled]
+24 [color= red , style = filled ]
+27 [label = "(1,0)(1,1)  0" , shape = ellipse]
+11 -> 27
+27 [label = "(1,0)(1,1)  0" , shape = ellipse]
+4 [color= red , style = filled ]
+11 [label = "START 2" shape = rectangle, color = red, style = filled ]
 }

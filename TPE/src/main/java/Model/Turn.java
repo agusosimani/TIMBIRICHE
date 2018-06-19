@@ -102,7 +102,10 @@ public class Turn {
         int fromRow, fromCol, toRow, toCol;
         for (Index index : lines) {
             if (index.getRow() %2 == 0) {
-                fromRow = toRow = index.getRow();
+                if (index.getRow() == 0)
+                    fromRow = toRow = index.getRow();
+                else
+                    fromRow = toRow = index.getRow() - 1;
                 if (index.getCol() == 0) {
                     fromCol = 0;
                     toCol = 1;
@@ -112,7 +115,7 @@ public class Turn {
                 }
             } else {
                 fromRow = index.getRow() - 1;
-                toRow = index.getCol() + 1;
+                toRow = index.getRow();
                 fromCol = toCol = index.getCol();
             }
             s.append("(").append(fromRow).append(",").append(fromCol).append(")(").append(toRow).append(",").append(toCol).append(") ");
