@@ -44,6 +44,7 @@ public class GameModel {
                     moveCalculated = true;
                 }
                 if (performMove && moveCalculated) {
+                    assert turn != null;
                     for (Index index : turn.getLines())
                         GameController.placeLine(index.getRow(),index.getCol(),board.getPlayerTurn());
                     performMove = false;

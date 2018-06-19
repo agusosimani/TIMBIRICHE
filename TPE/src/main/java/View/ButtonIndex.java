@@ -9,11 +9,11 @@ public class ButtonIndex {
         this.col = col;
     }
 
-    public int getRow() {
+    int getRow() {
         return row;
     }
 
-    public int getCol() {
+    int getCol() {
         return col;
     }
 }

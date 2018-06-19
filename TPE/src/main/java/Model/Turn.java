@@ -99,8 +99,23 @@ public class Turn {
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
+        int fromRow, fromCol, toRow, toCol;
         for (Index index : lines) {
-            s.append("(").append(index.getRow()).append(",").append(index.getCol()).append(") ");
+            if (index.getRow() %2 == 0) {
+                fromRow = toRow = index.getRow();
+                if (index.getCol() == 0) {
+                    fromCol = 0;
+                    toCol = 1;
+                } else {
+                    fromCol = index.getCol();
+                    toCol = index.getCol() + 1;
+                }
+            } else {
+                fromRow = index.getRow() - 1;
+                toRow = index.getCol() + 1;
+                fromCol = toCol = index.getCol();
+            }
+            s.append("(").append(fromRow).append(",").append(fromCol).append(")(").append(toRow).append(",").append(toCol).append(") ");
         }
         return s.toString();
     }
