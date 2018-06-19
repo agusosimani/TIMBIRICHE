@@ -20,6 +20,7 @@ public class BoardView {
     private JPanel header;
     private JPanel boardPanel;
     private JButton next;
+    private JButton dot;
     private JPanel footer;
     private JTextArea player1score;
     private JTextArea player2score;
@@ -266,16 +267,19 @@ public class BoardView {
         footer.add(player1score);
         footer.add(player2score);
         footer.add(playerTurnLabel);
-
-        JButton dot = new JButton("Generate dot file");
-        dot.setBackground(grey);
-        dot.setForeground(Color.WHITE);
-        dot.setFont(Font.getFont("Tahoma"));
-        dot.setMargin(new Insets(0,10,0,10));
-        dot.addActionListener(new DotListener());
-
         footer.add(undo);
-        footer.add(dot);
+
+        if (Parameters.ai != Constants.PVSP) {
+            dot = new JButton("Generate dot file");
+            dot.setBackground(grey);
+            dot.setForeground(Color.WHITE);
+            dot.setFont(Font.getFont("Tahoma"));
+            dot.setMargin(new Insets(0, 10, 0, 10));
+            dot.addActionListener(new DotListener());
+            if (Parameters.ai != 1 && Parameters.ai != AIVSAI)
+                dot.setEnabled(false);
+            footer.add(dot);
+        }
     }
 
     private class NextListener implements  ActionListener {
@@ -292,7 +296,7 @@ public class BoardView {
 
     private class DotListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-
+            GameController.generateDotFile();
         }
     }
 
@@ -364,6 +368,7 @@ public class BoardView {
 
     private void setFlags() {
         if (Parameters.ai != PVSP) {
+            dot.setEnabled(true);
             if (playerTurn != Parameters.ai && Parameters.ai != AIVSAI) {
                 next.setEnabled(false);
                 clickEnabled = true;

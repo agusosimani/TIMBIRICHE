@@ -6,18 +6,25 @@ import java.util.Objects;
 
 public class Turn {
     private Board board;
+    private int player;
+    private int id;
     private int value;
+    private boolean first;
     private boolean pruned = false;
     private List<Index> lines;
 
-    Turn(Board board) {
+    Turn(int player, Board board) {
         this.board = board;
+        this.player = player;
+        this.first = false;
         lines = new ArrayList<>();
     }
 
-    Turn(int value, Board board) {
+    Turn(int player, int value, Board board) {
         this.board = board;
+        this.player = player;
         this.value = value;
+        this.first = false;
         lines = new ArrayList<>();
     }
 
@@ -25,11 +32,23 @@ public class Turn {
         return board;
     }
 
+    int getPlayer() {
+        return player;
+    }
+
+    int getId() {
+        return id;
+    }
+
     int getValue() {
         return value;
     }
 
-    public boolean isPruned() {
+    boolean isFirst() {
+        return first;
+    }
+
+    boolean isPruned() {
         return pruned;
     }
 
@@ -37,8 +56,16 @@ public class Turn {
         return lines;
     }
 
+    void setId(int id) {
+        this.id = id;
+    }
+
     void setValue(int value) {
         this.value = value;
+    }
+
+    void setFirst() {
+        this.first = true;
     }
 
     void setPruned() {
@@ -50,7 +77,7 @@ public class Turn {
     }
 
     Turn duplicate() {
-        Turn duplicated = new Turn(board.duplicate());
+        Turn duplicated = new Turn(player, board.duplicate());
         duplicated.lines = new ArrayList<>(lines);
         return duplicated;
     }
@@ -71,11 +98,10 @@ public class Turn {
 
     @Override
     public String toString() {
-        String s = "turn: ";
+        StringBuilder s = new StringBuilder();
         for (Index index : lines) {
-            s = s.concat(" row: " + index.getRow() + " col: " + index.getCol());
+            s.append("(").append(index.getRow()).append(",").append(index.getCol()).append(") ");
         }
-        s = s.concat(" value: "+value);
-        return s;
+        return s.toString();
     }
 }

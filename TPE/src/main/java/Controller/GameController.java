@@ -13,6 +13,7 @@ import static Service.Constants.*;
 public class GameController {
     private static GameModel gameModel;
     private static BoardView boardView;
+    private static DotBuilder dot;
 
     public static void main(String[] args) {
         ArrayList<String> argsList = new ArrayList<>(Arrays.asList(args));
@@ -111,8 +112,9 @@ public class GameController {
         }
 
         Board board = new Board();
-        boardView = new BoardView();
         gameModel = new GameModel(board);
+        boardView = new BoardView();
+        dot = new DotBuilder();
 
         EventQueue.invokeLater(() -> {
             try {
@@ -122,7 +124,7 @@ public class GameController {
             }
         });
 
-        gameModel.gameLoop();
+        gameModel.gameLoop(dot);
     }
 
     public static void placeLine(int row, int col, int player) {
@@ -168,5 +170,9 @@ public class GameController {
             boardView.undoMove(gameModel.getBoard(),move);
         }
         gameModel.setMoveCalculated();
+    }
+
+    public static void generateDotFile() {
+        dot.generateDotFile();
     }
 }

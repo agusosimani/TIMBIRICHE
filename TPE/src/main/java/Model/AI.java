@@ -10,11 +10,12 @@ class AI {
     private int player;
     private Board board;
     private int side;
-    //private DotBuilder dot;
+    private DotBuilder dot;
 
-    AI(Board board) {
+    AI(Board board, DotBuilder dot) {
         this.board = board;
         this.side = Parameters.size*2 - 1;
+        this.dot = dot;
     }
 
     void setPlayer(int player) {
@@ -22,39 +23,39 @@ class AI {
     }
 
     Turn getMove() {
-        Turn current = new Turn(Constants.WORSTVALUE, board.duplicate());
+        int opponent = player == 1 ? 2 : 1;
+        Turn first = new Turn(opponent, Constants.WORSTVALUE, board.duplicate());
+        first.setFirst();
         Turn bestMove;
-//        File tree1 = new File("tree.dot");
-//        File tree2 = new File("tree2.dot");
-//        dot = new DotBuilder(player,"tree2.dot");
 
         if(Parameters.maxTime != -1) {
             final long maxTime = Parameters.maxTime * 1000 + System.currentTimeMillis();
             TimeLimit timeLimit = () -> System.currentTimeMillis() > maxTime;
 
             int depth = 0;
-            Turn move = current;
+            Turn move = first;
 
             do {
+                dot.restart(player);
                 bestMove = move;
                 depth++;
-                move = getMove(current,depth,timeLimit);
+                move = getMove(first,depth,timeLimit);
             } while (!timeLimit.exceeded());
 
         } else {
-
             TimeLimit timeLimit = () -> false;
-            bestMove = getMove(current,Parameters.depth,timeLimit);
+            dot.restart(player);
+            bestMove = getMove(first,Parameters.depth,timeLimit);
         }
 
         return bestMove;
     }
 
-    private Turn getMove(Turn current, int depth, TimeLimit timeLimit) {
+    private Turn getMove(Turn first, int depth, TimeLimit timeLimit) {
         if (Parameters.prune)
-            return negamax(current,depth,Constants.WORSTVALUE,Constants.BESTVALUE,player,timeLimit);
+            return negamax(first,depth,Constants.WORSTVALUE,Constants.BESTVALUE,player,timeLimit);
         else
-            return negamaxNoPrune(current,depth,player,timeLimit);
+            return negamaxNoPrune(first,depth,player,timeLimit);
     }
 
     private Turn negamax(Turn move, int depth, int alpha, int beta, int player, TimeLimit timeLimit) {
@@ -68,7 +69,7 @@ class AI {
 
         Set<Turn> children = generateMoves(player,move.getBoard());
 
-        Turn bestMove = new Turn(Constants.WORSTVALUE,board.duplicate());
+        Turn bestMove = new Turn(player,Constants.WORSTVALUE,board.duplicate());
         for (Turn child : children) {
             if (timeLimit.exceeded())
                 break;
@@ -82,8 +83,13 @@ class AI {
                     alpha = child.getValue();
             } else
                 child.setPruned();
+
+            dot.addEdge(move,child);
+            dot.setLabel(child);
         }
         move.setValue(bestMove.getValue());
+        dot.changeColor(bestMove);
+        dot.setLabel(move);
         return bestMove;
     }
 
@@ -96,7 +102,7 @@ class AI {
 
         Set<Turn> children = generateMoves(player,move.getBoard());
 
-        Turn bestMove = new Turn(Constants.WORSTVALUE,board.duplicate());
+        Turn bestMove = new Turn(player,Constants.WORSTVALUE,board.duplicate());
         for (Turn child : children) {
             if (timeLimit.exceeded())
                 break;
@@ -104,8 +110,13 @@ class AI {
             child.setValue(-negamaxNoPrune(child,depth-1,opponent,timeLimit).getValue());
             if (child.getValue() > bestMove.getValue())
                 bestMove = child;
+
+            dot.addEdge(move,child);
+            dot.setLabel(child);
         }
         move.setValue(bestMove.getValue());
+        dot.changeColor(bestMove);
+        dot.setLabel(move);
         return bestMove;
     }
 
@@ -113,34 +124,18 @@ class AI {
 
         Set<Turn> moves = new HashSet<>();
 
-        int col;
-        if ((side-1)%2 == 0)
-            col = Parameters.size - 2;
-        else
-            col = Parameters.size - 1;
-        generateMoves(player, new Turn(board.duplicate()), side-1, col, moves, board, false);
+        Index index = getFinalIndex(side-1);
+        generateMoves(player, new Turn(player,board.duplicate()), index.getRow(), index.getCol(), moves, board);
 
         return moves;
     }
 
-    private void generateMoves(int player, Turn move, int row, int col, Set<Turn> moves, Board board, boolean continues) {
-        Turn nextTurn;
-        if (continues) {
-            nextTurn = move.duplicate();
-        } else {
-            nextTurn = new Turn(board.duplicate());
-        }
-
+    private void generateMoves(int player, Turn move, int row, int col, Set<Turn> moves, Board board) {
         Board moveBoard = move.getBoard();
         if (moveBoard.verifyTurn(row,col,player)) {
             move.addLine(row,col);
             if (moveBoard.turnContinues()) {
-                int newCol;
-                if ((side-1)%2 == 0)
-                    newCol = Parameters.size - 2;
-                else
-                    newCol = Parameters.size - 1;
-                generateMoves(player,move,side-1,newCol,moves,moveBoard,true);
+                continueMove(player,move,row,col,moves);
             } else {
                 moves.add(move);
             }
@@ -148,17 +143,61 @@ class AI {
 
         if (col == 0) {
             if (row != 0) {
-                int newRow = row - 1;
-                int newCol;
-                if (newRow % 2 == 0)
-                    newCol = Parameters.size - 2;
-                else
-                    newCol = Parameters.size - 1;
-                generateMoves(player, nextTurn, newRow, newCol, moves, board, continues);
+                Index index = getFinalIndex(row - 1);
+                generateMoves(player, new Turn(player,board.duplicate()), index.getRow(), index.getCol(), moves, board);
             }
         } else {
-            generateMoves(player, nextTurn, row,col - 1, moves, board, continues);
+            generateMoves(player, new Turn(player,board.duplicate()), row,col - 1, moves, board);
         }
+    }
+
+    private int[][] directions = {{-1,-1},{-1,0},{-1,1},{0,-1},{0,1},{1,-1},{1,0},{1,1}};
+
+    private void continueMove(int player, Turn move, int row, int col, Set<Turn> moves) {
+        System.out.println("continue");
+        for (int[] direction : directions) {
+            for (int i = 1; i < 3; i ++) {
+                Turn newMove = move.duplicate();
+                Board newBoard = newMove.getBoard();
+                int newRow = row + i*direction[0];
+                int newCol = col + i*direction[1];
+                if (isValidIndex(newRow, newCol)) {
+                    if (newBoard.verifyTurn(newRow, newCol, player)) {
+                        newMove.addLine(newRow, newCol);
+                        if (newBoard.turnContinues()) {
+                            continueMove(player, newMove, newRow, newCol, moves);
+                            return;
+                        } else {
+                            moves.add(newMove);
+                            return;
+                        }
+                    }
+                }
+
+            }
+        }
+        System.out.println("no consegui vecino de");
+        System.out.println(move);
+        System.out.println(move.getBoard());
+        Index index = getFinalIndex(side-1);
+        generateMoves(player,move,index.getRow(),index.getCol(),moves,move.getBoard());
+    }
+
+    private Index getFinalIndex(int row) {
+        int col;
+        if (row%2 == 0)
+            col = Parameters.size - 2;
+        else
+            col = Parameters.size - 1;
+        return new Index(row,col);
+    }
+
+    private boolean isValidIndex(int row, int col) {
+        if (row < 0 || row > side - 1 || col < 0)
+            return false;
+        if ( row%2 == 0 && col > Parameters.size - 2)
+            return false;
+        return !( row%2 == 1 && col > Parameters.size - 1);
     }
 
     private int ponderHeuristicValue(Turn move, int player) {

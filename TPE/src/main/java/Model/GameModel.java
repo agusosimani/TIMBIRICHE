@@ -17,9 +17,9 @@ public class GameModel {
 
     public Board getBoard() { return board; }
 
-    public void gameLoop() {
+    public void gameLoop(DotBuilder dot) {
 
-        AI ai = new AI(board);
+        AI ai = new AI(board, dot);
         Turn turn = null;
         if (Parameters.ai != PVSP) {
             if (Parameters.ai != AIVSAI)
